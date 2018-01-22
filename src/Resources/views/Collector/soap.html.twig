@@ -1,0 +1,186 @@
+{% extends 'WebProfilerBundle:Profiler:layout.html.twig' %}
+
+{% block toolbar %}
+    {% if collector.total > 0 %}
+        {% set profiler_markup_version = profiler_markup_version|default(1) %}
+        {% set icon %}
+            {% if profiler_markup_version == 1 %}
+                <img width="18" height="28" alt="Soap" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAcCAQAAADGzSesAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfgBgkQExhGfXG8AAAByklEQVQ4y92Sz0tUYRSGnzP3mkwTKZTJGNO9d1WBlIJQBPkpRBQt+rGJoAmCWUXgQtolgosgXFhQm0CLKKJNWO2ihZ+UFiSMLayBRG5pmSTMWEMj09yvRfcODfMPRGd3Xp5zOO85B/69sOql7gPeHafFnfErkWLXQzFtbHYyzVRVqYfMc0p8YPWvMoDexhoqwyTjOgdwKNHdDlZP0rliDrur/lLEOOuyn3k/C7Ajw5BTsdwxzrOP5rYnixUAtTV2jBM0uG/9gupiiE5xRH0mCeRlzDxjihZGZM0skyROlg4CGrgn6iy3sLgta6aDhPHkPtfIm41ykQv08xgo2jzkJRZfTECcIwya0ckloKg0aVawZNNEwdZlFsKJf6rXrGDCrEIj12kyrT2naza+t1A6JSl3zsVpljMkeIrHFuPXQDnjttFvtkuXnCTNDT3s5vCtmxIBB23ZI7vp465ZkBR5jpKUcxPLAFVIHWcEz1wNBl6UAVSKB8wyzEcdhLdTm0njgby3gj+K/mTGyfCISyoeHfgH03wjy3zkrrdJ2tlAJ5dpDV9FB2qUVxR5p8NOu77PrYfl5ao7v+Qu8lX/ivI3JjUT2wb0Mct/Hb8BubCYiljVtrAAAAAASUVORK5CYII=" />
+                <span class="sf-toolbar-value sf-toolbar-status">{{ collector.total }}</span>
+                <span class="sf-toolbar-info-piece-additional-detail">in {{ '%0.2f'|format(collector.time) }} s</span>
+            {% else %}
+                {{ include('@FreshcellsSoapClient/Collector/icon.svg') }}
+                <span class="sf-toolbar-value">{{ collector.total }}</span>
+                <span class="sf-toolbar-info-piece-additional-detail">
+                    <span class="sf-toolbar-label">in</span>
+                    <span class="sf-toolbar-value">{{ '%0.2f'|format(collector.time) }}</span>
+                    <span class="sf-toolbar-label">s</span>
+                </span>
+            {% endif %}
+        {% endset %}
+
+        {% set text %}
+            <div class="sf-toolbar-info-piece">
+                <b>Soap Requests</b>
+                <span class="sf-toolbar-status">{{ collector.total }}</span>
+            </div>
+
+            <div class="sf-toolbar-info-piece">
+                <b>Total time</b>
+                <span>{{ '%0.2f'|format(collector.time) }} s</span>
+            </div>
+        {% endset %}
+
+        {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { link: true }) }}
+    {% endif %}
+{% endblock %}
+
+{% block menu %}
+    {% set profiler_markup_version = profiler_markup_version|default(1) %}
+    {% if profiler_markup_version == 1 %}
+        <span class="label">
+            <span class="icon"><img alt="Soap" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAQAAACROWYpAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfgBgkSERvuxpbqAAADo0lEQVQ4y5WUXUxcVRDHf3N2+YhIP0AqrbYsQkljqGgQKx+7Z5eSmLQxWolNtK1ajSRtTFBjYkLRGK2JiU3Q2Igxtg+a0PjQpyq1tsLeFZLyUIJF2gJJu0shVdsoFY0Lu3uPDywsd9lgvA83Z87M/5yZM//5Cyt+1XfkP29eZIiPrJHlXlkZ7D9sDgEwkmjq+yXdq1YGm5bkotj1+HLvf4CJLWYY+19gPyAfcguI0cN3GUICS9a1GeC6RRvd31AAGoDt6Qc0FujyQD6AbxnYX6yN/srpCVTop3xV4Aa9L7GTQntCn7S6Qw5wkEbsHMC1UN82BvDX2W34ZNTX7vY/aY6yCoAGnbDONHNysaBeevDGVPIg8BOc78BO4GF5x1VynPJkdCF/R765TC2TgA+LplWb9sohyljn2eiZjYTDgG7kVVYDMCX6dvJeACuxr+86yTu896vjVKG4aIrlXqY4Yp9WLeyhEEMWv/OS6PNsW1LmNQakW071TjflxkLUmPfkS2ZNljzAYSqYwsOwaTejUiphuSq+eulLAifpIcBGYkzTz1o0r9udP0bnnTrA55TzgXwyc+OCqZKfDIhW8pDdJiWcN8eyhmdzXVt4gt1UgBmTKivqQ2ETAnQb77PH6kql6bbswCC7AWPMD4a//BfMoPWWfpZjWGZOY6Vix4ENAHoXd0tX8E839BoSS3prMGCuyFwGOs7RqrdQRgNu82ljiTszr3Mvzs7gl+ylaVNGNgXsJWd+VOIvq8wj8X2cHtnMAW9uiOB8xQFa6FfaNHIpGTbtygTO4yblvfZ+mrE9U568krs8fo5QxtvB05Hrnhw8xBnPaV2Wdj39bGaEf9Zm/cEaaeNNxilkPTDOBNSJ1RH41t5knUuTIR8Lg+EtkxNSTYeJSA2l3GbI3CmtnJCDwekKxhZalYJ6CeHNkUoekSj7qaHDegOgPr9/BnyrWcczhPhsjAUCpwmg3sW7VALwRfSVgdkmzgGwg270o3xNVB20L/GrZYPG8WC6mPaFqZfO3MFr5mrSU8AUkUmPodnUsJ3HPDcjExGcD7aeexZ1syiuUuQZmN+zRbGVrUBtYIcadfRZLjO8aJxNxNO6v0H8ZCeN+xLPxZQDHIyqj+kCwrwmP/eZBie6KJUXqAeVKKfcuYc5YJeaOulUUdJqUrfkt5RlX7GNOGW410HSYBqBfC/IUfIAmLEr4xOO1w4D1dxI/sNp+h4mMlQyJEUozqqnsyMW/wIea0O1JsJFtQAAAABJRU5ErkJggg=="/></span>
+            <strong>Soap</strong>
+            {% if collector.total > 0 %}
+                <span class="count">
+                    <span>{{ collector.total }}</span>
+                    <span>{{ '%0.0f'|format(collector.time) }} s</span>
+                </span>
+            {% endif %}
+        </span>
+    {% else %}
+        <span class="label {{ collector.total == 0 ? 'disabled' }}">
+            <span class="icon">{{ include('@FreshcellsSoapClient/Collector/icon.svg') }}</span>
+            <strong>Soap</strong>
+            {% if collector.total > 0 %}
+                <span class="count">
+                    <span>{{ collector.total }}</span>
+                    <span>{{ '%0.2f'|format(collector.time) }} s</span>
+                </span>
+            {% endif %}
+        </span>
+    {% endif %}
+{% endblock %}
+
+{% block panel %}
+    {% set profiler_markup_version = profiler_markup_version|default(1) %}
+    <style>
+        .soap-response-container {
+            background: #F5F5F5;
+            margin: .5em 0;
+            padding: 1em;
+            border: 1px solid #DDD;
+        }
+        .call {
+            border: 1px solid #DDD;
+        }
+        .call header{
+            background: #DDD;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .call header .duration {
+            float: right;
+        }
+        .call header .index {
+            font-weight: bold;
+        }
+        .call .content {
+            padding: 5px;
+        }
+        {% if profiler_markup_version == 1 %}
+        .soap-requests-table td, .queries-table th { vertical-align: top; }
+        .soap-requests-table td > div { margin-bottom: 6px; }
+        {% endif %}
+    </style>
+
+    <h2>Request Metrics</h2>
+
+    {% if profiler_markup_version == 1 %}
+        <table>
+            <tbody>
+            <tr>
+                <th style="width: 20%;">Soap Requests</th>
+                <td>{{ collector.total }}</td>
+            </tr>
+            <tr>
+                <th>Total Time</th>
+                <td>{{ '%0.2f'|format(collector.time) }} s</td>
+            </tr>
+            </tbody>
+        </table>
+    {% else %}
+        <div class="metrics">
+            <div class="metric">
+                <span class="value">{{ collector.total }}</span>
+                <span class="label">Soap Requests</span>
+            </div>
+
+            <div class="metric">
+                <span class="value">{{ '%0.2f'|format(collector.time) }} s</span>
+                <span class="label">Total Time</span>
+            </div>
+        </div>
+    {% endif %}
+
+    <h2>Requests</h2>
+
+    {% if collector.requests is empty %}
+        <div class="empty">
+            <p>No Soap requests were performed.</p>
+        </div>
+    {% else %}
+            {% for request in collector.requests %}
+                <section class="call">
+                    <header class="accordion-header {{ loop.index }}">
+                        <span class="index">#{{ loop.index }}</span>
+                        <span>{{ request.resource }}</span>
+                        <span class="duration">{{ '%0.2f'|format(request.duration) }} s</span>
+                    </header>
+                    <div class="content">
+                        <div class="sf-tabs">
+                            <div class="tab">
+                                <h3 class="tab-title">Request</h3>
+                                <div class="tab-content">
+                                    <h4>Headers</h4>
+                                    <div>{{ request.request_headers|nl2br }}</div>
+                                    <h4>Content</h4>
+                                    <pre class="soap-response-container">{{ request.request_body }}</pre>
+                                </div>
+                            </div>
+                            <div class="tab">
+                                <h3 class="tab-title">Response</h3>
+                                <div class="tab-content">
+                                    <h4>Headers</h4>
+                                    <div>{{ request.response_headers|nl2br }}</div>
+                                    <h4>Content</h4>
+                                    <pre class="soap-response-container">{{ request.response_body }}</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% if profiler_markup_version == 1 %}
+            <script type="text/javascript">//<![CDATA[
+              function toggle(target) {
+                var targetSelector = target.getAttribute('data-toggle-selector');
+                var targetDataAltContent = target.getAttribute('data-toggle-alt-content');
+                var targetElement = document.querySelector(targetSelector);
+                target.setAttribute('data-toggle-alt-content', target.innerHTML);
+                if (targetElement.style.display != 'block') {
+                  targetElement.style.display = 'block';
+                  target.innerHTML = targetDataAltContent;
+                } else {
+                  targetElement.style.display = 'none';
+                  target.innerHTML = targetDataAltContent;
+                }
+                return false;
+              }
+              //]]></script>
+        {% endif %}
+    {% endif %}
+{% endblock %}

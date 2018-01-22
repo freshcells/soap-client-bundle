@@ -1,0 +1,27 @@
+parameters:
+    mock_requests:
+        'http://gcomputer.net/webservices/DailyDilbert': './tests/Fixtures/MockRequest.xml'
+    mock_responses:
+        'http://gcomputer.net/webservices/DailyDilbert': './tests/Fixtures/MockResponse.xml'
+
+services:
+    Gamez\Psr\Log\TestLogger:
+        public: true
+    Freshcells\SoapClientBundle\SoapClient\SoapClient:
+        arguments: ['http://gcomputer.net/webservices/dilbert.asmx?WSDL']
+        public: true
+        tags:
+            - {name: fcse_soap.client}
+        calls:
+            - [ setDispatcher, [ '@event_dispatcher']]
+            - [ setMockRequests, ['%mock_requests%']]
+            - [ setMockResponses, ['%mock_responses%']]
+
+framework:
+    secret: test
+    profiler:
+        collect: true
+    test: ~
+
+freshcells_soap_client:
+    logger: Gamez\Psr\Log\TestLogger

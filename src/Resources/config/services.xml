@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="freshcells_soap_client.soap_options" type="collection"></parameter>
+        <parameter key="freshcells_soap_client.event_dispatcher.service">event_dispatcher</parameter>
+    </parameters>
+
+    <services>
+
+        <service id="freshcells_soap_client.logger.service" alias="logger" public="false" />
+
+        <service id="Freshcells\SoapClientBundle\Plugin\LogPlugin" public="false">
+            <argument type="service" id="logger" />
+        </service>
+
+        <service id="Freshcells\SoapClientBundle\DataCollector\SoapCallRegistry" public="false" />
+
+        <service id="Freshcells\SoapClientBundle\DataCollector\SoapDataCollector" public="false">
+            <argument type="service" id="Freshcells\SoapClientBundle\DataCollector\SoapCallRegistry" />
+            <tag name="data_collector" template="@FreshcellsSoapClient/Collector/soap.html.twig" id="freshcells_soap_client" />
+        </service>
+
+        <service id="Freshcells\SoapClientBundle\Plugin\DataCollectorPlugin" public="false">
+            <argument type="service" id="Freshcells\SoapClientBundle\DataCollector\SoapCallRegistry" />
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+    </services>
+
+</container>
