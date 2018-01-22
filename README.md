@@ -33,7 +33,7 @@ Initalize the bundle:
 Create a Soap Client service and tag it with `freshcells_soap_client.client` 
 
     Freshcells\SoapClientBundle\SoapClient\SoapClient:
-            arguments: ['./tests/Fixtures/asterix.wsdl']
+            arguments: ['%soap_wsdl%', '%soap_options%']
             public: true
             tags:
                 - {name: freshcells_soap_client.client}
@@ -48,7 +48,7 @@ The bundle provides an advanced SoapClient that takes care of dispatching events
 
 
 ``` php
-$response = $this->container->get('Freshcells\SoapClientBundle\SoapClient\SoapClient')->DailyAsterix();
+$response = $this->container->get('Freshcells\SoapClientBundle\SoapClient\SoapClient')->DailyDilbert();
 ```
 
 ## Change log
