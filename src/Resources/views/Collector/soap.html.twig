@@ -76,8 +76,7 @@
         }
         .call header{
             background: #DDD;
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 5px;
         }
         .call header .duration {
             float: right;
@@ -85,8 +84,23 @@
         .call header .index {
             font-weight: bold;
         }
-        .call .content {
+        .accordion .accordion-header {
+            cursor:pointer
+        }
+        .accordion .accordion-content {
+            display:none;transition:all 1s ease;
             padding: 5px;
+        }
+        .accordion .accordion-content.expanded {
+            display:block;
+            padding: 5px;
+        }
+        .call .accordion .accordion-content h4{
+            margin: 0;
+            padding: 5px 0;
+        }
+        .tab-navigation {
+            border-bottom: 1px solid #666;
         }
         {% if profiler_markup_version == 1 %}
         .soap-requests-table td, .queries-table th { vertical-align: top; }
@@ -94,7 +108,7 @@
         {% endif %}
     </style>
 
-    <h2>Request Metrics</h2>
+    <h2>SOAP Requests</h2>
 
     {% if profiler_markup_version == 1 %}
         <table>
@@ -130,6 +144,7 @@
             <p>No Soap requests were performed.</p>
         </div>
     {% else %}
+        <div class="accordion">
             {% for request in collector.requests %}
                 <section class="call">
                     <header class="accordion-header {{ loop.index }}">
@@ -137,7 +152,7 @@
                         <span>{{ request.resource }}</span>
                         <span class="duration">{{ '%0.2f'|format(request.duration) }} s</span>
                     </header>
-                    <div class="content">
+                    <div class="accordion-content{{ loop.first ? ' expanded': '' }}">
                         <div class="sf-tabs">
                             <div class="tab">
                                 <h3 class="tab-title">Request</h3>
@@ -161,26 +176,52 @@
                     </div>
                 </section>
             {% endfor %}
-            </tbody>
+        </div>
+        </tbody>
         </table>
 
-        {% if profiler_markup_version == 1 %}
-            <script type="text/javascript">//<![CDATA[
-              function toggle(target) {
+        <script type="text/javascript">
+            var FreshcellsSoap = FreshcellsSoap || {};
+            FreshcellsSoap.accordion = function () {
+                var elements = document.querySelectorAll('.accordion .accordion-header');
+                for (var i = 0, l = elements.length, element; i < l, element = elements[i]; i++) {
+                    element.addEventListener('click', function () {
+                        this
+                            .parentNode
+                            .getElementsByClassName('accordion-content')[0]
+                            .classList
+                            .toggle('expanded')
+                        ;
+                    });
+
+                    var links = element.getElementsByTagName('a');
+
+                    for (var j = 0, k = links.length, link; j < k, link = links[j]; j++) {
+                        link.addEventListener('click', function (e) {
+                            e.stopPropagation();
+                        });
+                    }
+                }
+            };
+            document.addEventListener('DOMContentLoaded', FreshcellsSoap.accordion, false);
+            {% if profiler_markup_version == 1 %}
+            //<![CDATA[
+            function toggle(target) {
                 var targetSelector = target.getAttribute('data-toggle-selector');
                 var targetDataAltContent = target.getAttribute('data-toggle-alt-content');
                 var targetElement = document.querySelector(targetSelector);
                 target.setAttribute('data-toggle-alt-content', target.innerHTML);
                 if (targetElement.style.display != 'block') {
-                  targetElement.style.display = 'block';
-                  target.innerHTML = targetDataAltContent;
+                    targetElement.style.display = 'block';
+                    target.innerHTML = targetDataAltContent;
                 } else {
-                  targetElement.style.display = 'none';
-                  target.innerHTML = targetDataAltContent;
+                    targetElement.style.display = 'none';
+                    target.innerHTML = targetDataAltContent;
                 }
                 return false;
-              }
-              //]]></script>
-        {% endif %}
+            }
+            //]]>
+            {% endif %}
+        </script>
     {% endif %}
 {% endblock %}

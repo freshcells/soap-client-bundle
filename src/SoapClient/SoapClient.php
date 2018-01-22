@@ -41,7 +41,7 @@ class SoapClient extends \SoapClient
     {
         $defaults = array(
             'compression'        => (SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP),
-            'cache_wsdl'         => WSDL_CACHE_NONE,
+            'cache_wsdl'         => WSDL_CACHE_BOTH,
             'connection_timeout' => 60,
             'exceptions'         => true,
             'features'           => SOAP_SINGLE_ELEMENT_ARRAYS,

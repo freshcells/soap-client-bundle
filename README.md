@@ -61,6 +61,10 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 $ composer test
 ```
 
+## Todo
+- add to timeline in profiler
+- mock indicator
+
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
