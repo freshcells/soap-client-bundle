@@ -9,7 +9,7 @@
 
 Symfony integration for an advanced SoapClient.
 
-![Profiler](/freshcells_soap_client_bundle.png?raw=true "Profiler Soap Client Bundle")
+![Profiler](/freshcells_soap_client_bundle_profiler.png?raw=true "Profiler Soap Client Bundle")
 
 ## Features
 - Logging of requests, responses and faults
