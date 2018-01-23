@@ -35,7 +35,7 @@ class FunctionalTest extends WebTestCase
     }
 
     /**
-     * @expectedException Freshcells\SoapClientBundle\Exception\SoapException
+     * @expectedException \Exception
      */
     public function testFault()
     {
@@ -56,7 +56,7 @@ class FunctionalTest extends WebTestCase
             $container->get('profiler')->get('freshcells_soap_client')->collect(new Request(), new Response());
             $this->assertEquals(1, $container->get('profiler')->get('freshcells_soap_client')->getTotal());
 
-            throw new $e;
+            throw $e;
         }
     }
 }

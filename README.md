@@ -32,19 +32,27 @@ Initalize the bundle:
 
 Create a Soap Client service and tag it with `freshcells_soap_client.client` 
 
-    Freshcells\SoapClientBundle\SoapClient\SoapClient:
+    parameters:
+        mock_requests:
+            'http://gcomputer.net/webservices/DailyDilbert': './tests/Fixtures/MockRequest.xml'
+        mock_responses:
+            'http://gcomputer.net/webservices/DailyDilbert': './tests/Fixtures/MockResponse.xml'
+        soap_options:
+            mock_requests: '%mock_requests%'
+            mock_responses: '%mock_responses%'
+    services:
+        Freshcells\SoapClientBundle\SoapClient\SoapClient:
             arguments: ['%soap_wsdl%', '%soap_options%']
             public: true
             tags:
                 - {name: freshcells_soap_client.client}
             calls:
                 - [ setDispatcher, [ '@event_dispatcher']]
-                # in tests or while developing it might be useful to use mocks
-                # - [ setMockRequests, ['%mock_requests%']]
-                # - [ setMockResponses, ['%mock_responses%']]
+
 
 SoapClients are created outside of the bundle to give more flexibility, f.e when using generators like https://github.com/wsdl2phpgenerator/wsdl2phpgenerator.  
-The bundle provides an advanced SoapClient that takes care of dispatching events, mocking and some error handling.
+The bundle provides an advanced SoapClient that takes care of dispatching events, mocking and error handling.  
+Make sure that you use this client or extend from it.
 
 
 ``` php
@@ -64,6 +72,9 @@ $ composer test
 ## Todo
 - add to timeline in profiler
 - mock indicator
+- make middlewares
+- error / soap fault indicator in accordion header
+- use options-resolver
 
 ## Contributing
 

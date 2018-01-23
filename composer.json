@@ -29,8 +29,8 @@
         "ramsey/uuid": "^3.7",
         "symfony/config": "^3.0|^4.0",
         "symfony/dependency-injection": "^3.0|^4.0",
-        "symfony/http-kernel": "^3.0|^4.0",
-        "symfony/event-dispatcher": "~3.4|~4.0"
+        "symfony/event-dispatcher": "~3.4|~4.0",
+        "symfony/http-kernel": "^3.0|^4.0"
     },
     "require-dev": {
         "gamez/psr-testlogger": "^2.0",

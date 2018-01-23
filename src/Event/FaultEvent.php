@@ -2,7 +2,6 @@
 
 namespace Freshcells\SoapClientBundle\Event;
 
-use Freshcells\SoapClientBundle\Exception\SoapException;
 use Symfony\Component\EventDispatcher\Event;
 
 class FaultEvent extends Event
@@ -12,9 +11,9 @@ class FaultEvent extends Event
      */
     protected $id;
     /**
-     * @var SoapException
+     * @var \Exception
      */
-    protected $soapException;
+    protected $exception;
 
     /**
      * @var RequestEvent
@@ -24,14 +23,14 @@ class FaultEvent extends Event
     /**
      * FaultEvent constructor.
      * @param string $id
-     * @param SoapException $soapException
+     * @param \Exception $exception
      * @param RequestEvent $requestEvent
      */
-    public function __construct(string $id, SoapException $soapException, RequestEvent $requestEvent)
+    public function __construct(string $id, \Exception $exception, RequestEvent $requestEvent)
     {
-        $this->id            = $id;
-        $this->soapException = $soapException;
-        $this->requestEvent  = $requestEvent;
+        $this->id           = $id;
+        $this->exception    = $exception;
+        $this->requestEvent = $requestEvent;
     }
 
     /**
@@ -43,11 +42,11 @@ class FaultEvent extends Event
     }
 
     /**
-     * @return SoapException
+     * @return \Exception
      */
-    public function getSoapException(): SoapException
+    public function getException(): \Exception
     {
-        return $this->soapException;
+        return $this->exception;
     }
 
     /**

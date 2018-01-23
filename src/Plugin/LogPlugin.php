@@ -66,7 +66,7 @@ class LogPlugin implements EventSubscriberInterface
     {
         $this->logger->error(sprintf(
             '[freshcells/soap-client-bundle] fault "%s" for request "%s" with params %s',
-            $event->getSoapException()->getMessage(),
+            $event->getException()->getMessage(),
             $event->getRequestEvent()->getResource(),
             print_r($event->getRequestEvent()->getRequest(), true)
         ));

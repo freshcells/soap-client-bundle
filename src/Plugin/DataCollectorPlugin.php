@@ -53,7 +53,7 @@ class DataCollectorPlugin implements EventSubscriberInterface
                 $event->getRequestEvent()->getResource(),
                 $event->getRequestEvent()->getRequest(),
                 null,
-                $event->getSoapException()->getMessage(),
+                $event->getException()->getMessage(),
                 null
             )
         );

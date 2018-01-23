@@ -6,7 +6,6 @@ use Freshcells\SoapClientBundle\Event\Events;
 use Freshcells\SoapClientBundle\Event\FaultEvent;
 use Freshcells\SoapClientBundle\Event\RequestEvent;
 use Freshcells\SoapClientBundle\Event\ResponseEvent;
-use Freshcells\SoapClientBundle\Exception\SoapException;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -39,6 +38,16 @@ class SoapClient extends \SoapClient
      */
     public function __construct($wsdl = null, array $options = [])
     {
+
+        if(isset($options['mock_requests'])){
+            $this->setMockRequests($options['mock_requests']);
+            unset($options['mock_requests']);
+        }
+        if(isset($options['mock_responses'])){
+            $this->setMockResponses($options['mock_responses']);
+            unset($options['mock_responses']);
+        }
+
         $defaults = array(
             'compression'        => (SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP),
             'cache_wsdl'         => WSDL_CACHE_BOTH,
@@ -67,21 +76,19 @@ class SoapClient extends \SoapClient
     {
         try {
             $response = parent::__call($function_name, $arguments);
-            //works only with 'exceptions' => false
+            //works only with 'exceptions' => false, we always throw
             if (is_soap_fault($response)) {
                 throw $response;
             }
         } catch (\Exception $e) {
-            $soapException = SoapException::fromThrowable($e);
-
             $request = $this->__getLastRequest();
-            if ($request === null) {
+            if ($request === null) { //only dispatch this when no request was fired
                 $request = implode(' ', $arguments);
+                $id = Uuid::uuid1();
+                $this->faultCall($id->toString(), $function_name, $request, $e);
             }
-            $id = Uuid::uuid1();
-            $this->faultCall($id->toString(), $function_name, $request, $soapException);
 
-            throw $soapException;
+            throw $e;
         }
 
         return $response;
@@ -173,16 +180,16 @@ class SoapClient extends \SoapClient
 
     /**
      * @param string $id
-     * @param $resource
-     * @param $requestContent
-     * @param $soapException
+     * @param string $resource
+     * @param string $requestContent
+     * @param \Exception $Exception
      */
-    protected function faultCall(string $id, string $resource, string $requestContent, SoapException $soapException)
+    protected function faultCall(string $id, string $resource, string $requestContent, \Exception $exception)
     {
         if (null !== $this->dispatcher) {
             $this->dispatcher->dispatch(
                 Events::FAULT,
-                new FaultEvent($id, $soapException, new RequestEvent($id, $resource, $requestContent))
+                new FaultEvent($id, $exception, new RequestEvent($id, $resource, $requestContent))
             );
         }
     }
@@ -206,7 +213,7 @@ class SoapClient extends \SoapClient
     /**
      * @param array $mockRequests
      */
-    public function setMockRequests(array $mockRequests)
+    private function setMockRequests(array $mockRequests)
     {
         $this->mockRequests = $mockRequests;
     }
@@ -214,7 +221,7 @@ class SoapClient extends \SoapClient
     /**
      * @param array $mockResponses
      */
-    public function setMockResponses(array $mockResponses)
+    private function setMockResponses(array $mockResponses)
     {
         $this->mockResponses = $mockResponses;
     }
