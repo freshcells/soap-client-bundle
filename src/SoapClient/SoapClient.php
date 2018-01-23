@@ -182,7 +182,7 @@ class SoapClient extends \SoapClient
      * @param string $id
      * @param string $resource
      * @param string $requestContent
-     * @param \Exception $Exception
+     * @param \Exception $exception
      */
     protected function faultCall(string $id, string $resource, string $requestContent, \Exception $exception)
     {
