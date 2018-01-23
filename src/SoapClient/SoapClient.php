@@ -39,11 +39,11 @@ class SoapClient extends \SoapClient
     public function __construct($wsdl = null, array $options = [])
     {
 
-        if(isset($options['mock_requests'])){
+        if (isset($options['mock_requests'])) {
             $this->setMockRequests($options['mock_requests']);
             unset($options['mock_requests']);
         }
-        if(isset($options['mock_responses'])){
+        if (isset($options['mock_responses'])) {
             $this->setMockResponses($options['mock_responses']);
             unset($options['mock_responses']);
         }
