@@ -81,14 +81,27 @@ class SoapClient extends \SoapClient
                 throw $response;
             }
         } catch (\Exception $e) {
-            $request = $this->__getLastRequest();
-            if ($request === null) { //only dispatch this when no request was fired
-                $request = implode(' ', $arguments);
-                $id = Uuid::uuid1();
-                $this->faultCall($id->toString(), $function_name, $request, $e);
-            }
+            $this->handleFault($function_name, $arguments, $e);
+        }
 
-            throw $e;
+        return $response;
+    }
+
+    public function __soapCall(
+        $function_name,
+        $arguments,
+        $options = null,
+        $input_headers = null,
+        &$output_headers = null
+    ) {
+        try {
+            $response = parent::__soapCall($function_name, $arguments, $options, $input_headers, $output_headers);
+            //works only with 'exceptions' => false, we always throw
+            if (is_soap_fault($response)) {
+                throw $response;
+            }
+        } catch (\Exception $e) {
+            $this->handleFault($function_name, $arguments, $e);
         }
 
         return $response;
@@ -232,5 +245,22 @@ class SoapClient extends \SoapClient
     public function setDispatcher(EventDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
+    }
+
+    /**
+     * @param $function_name
+     * @param $arguments
+     * @param $e
+     */
+    protected function handleFault($function_name, $arguments, $e): void
+    {
+        $request = $this->__getLastRequest();
+        if ($request === null) { //only dispatch this when no request was fired
+            $request = implode(' ', $arguments);
+            $id      = Uuid::uuid1();
+            $this->faultCall($id->toString(), $function_name, $request, $e);
+        }
+
+        throw $e;
     }
 }
