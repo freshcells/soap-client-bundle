@@ -10,13 +10,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FunctionalTest extends WebTestCase
 {
-    public function testBundle()
+    protected function setUp()
     {
-        $client = static::createClient([
+        parent::setUp();
+        $this->client = static::createClient([
             'environment' => 'test',
             'debug'       => true,
         ]);
+    }
 
+    public function testBundle()
+    {
         $container = static::$kernel->getContainer();
 
         $soapClient = $container->get(SoapClient::class);
@@ -39,11 +43,6 @@ class FunctionalTest extends WebTestCase
      */
     public function testFault()
     {
-        $client = static::createClient([
-            'environment' => 'test',
-            'debug'       => true,
-        ]);
-
         $container = static::$kernel->getContainer();
         $soapClient = $container->get(SoapClient::class);
 
@@ -58,5 +57,14 @@ class FunctionalTest extends WebTestCase
 
             throw $e;
         }
+    }
+
+    public function testMockDetector()
+    {
+        $container = static::$kernel->getContainer();
+        $soapClient = $container->get('soap_client_with mock_detector');
+        $response = $soapClient->DailyDilbert('heureka');
+
+        $this->assertEquals('string', $response->DailyDilbertResult);
     }
 }

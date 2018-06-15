@@ -61,6 +61,11 @@ Make sure that you use this client or extend from it.
 $response = $this->container->get('Freshcells\SoapClientBundle\SoapClient\SoapClient')->DailyDilbert();
 ```
 
+**Note:**  
+Mock requests can also be detected by a callable in case if Action and Location are not different by request, which is the case with some Soap servers.
+See tests for implementation.
+
+
 ## Change log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.

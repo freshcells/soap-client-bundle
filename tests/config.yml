@@ -6,6 +6,8 @@ parameters:
     soap_options:
         mock_requests: '%mock_requests%'
         mock_responses: '%mock_responses%'
+    soap_client_with mock_detector_soap_options:
+        mock_requests: '%mock_requests%'
 
 services:
     Gamez\Psr\Log\TestLogger:
@@ -17,6 +19,19 @@ services:
             - {name: fcse_soap.client}
         calls:
             - [ setDispatcher, [ '@event_dispatcher']]
+    mock_response_detector:
+        public: false
+        class: callback
+        factory: [Freshcells\SoapClientBundle\Tests\SoapMockFactory, createMockResponseDetector]
+    soap_client_with mock_detector:
+        class: Freshcells\SoapClientBundle\SoapClient\SoapClient
+        arguments: ['http://gcomputer.net/webservices/dilbert.asmx?WSDL', '%soap_client_with mock_detector_soap_options%']
+        public: true
+        tags:
+            - {name: fcse_soap.client}
+        calls:
+            - [ setDispatcher, [ '@event_dispatcher']]
+            - [ setMockResponses, [ ["@mock_response_detector"]]]
 
 framework:
     secret: test

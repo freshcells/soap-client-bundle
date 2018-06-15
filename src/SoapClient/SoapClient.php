@@ -120,21 +120,43 @@ class SoapClient extends \SoapClient
         $id = Uuid::uuid1();
 
         foreach ($this->mockRequests as $key => $mockRequest) {
-            if (strrpos($action, $key) !== false) {
-                $request = file_get_contents($mockRequest);
-                break;
+            if (is_string($key)) {
+                if (strrpos($action, $key) !== false) {
+                    $request = file_get_contents($mockRequest);
+                    break;
+                }
+            }
+            else {
+                if (is_callable($mockRequest)) {
+                    if ($responseFilePath = $mockRequest($request, $location, $action, $version, $one_way)) {
+                        $request = file_get_contents($mockRequest);
+                        break;
+                    }
+                }
             }
         }
 
         $this->preCall($id->toString(), $action, $request);
 
         foreach ($this->mockResponses as $key => $mockResponse) {
-            if (strrpos($action, $key) !== false) {
-                $response = file_get_contents($mockResponse);
+            if (is_string($key)) {
+                if (strrpos($action, $key) !== false) {
+                    $response = file_get_contents($mockResponse);
 
-                $this->postCall($id->toString(), $action, $response);
+                    $this->postCall($id->toString(), $action, $response);
 
-                return $response;
+                    return $response;
+                }
+            } else {
+                if (is_callable($mockResponse)) {
+                    if ($responseFilePath = $mockResponse($request, $location, $action, $version, $one_way)) {
+                        $response = file_get_contents($responseFilePath);
+
+                        $this->postCall($id->toString(), $action, $response);
+
+                        return $response;
+                    }
+                }
             }
         }
 
@@ -226,7 +248,7 @@ class SoapClient extends \SoapClient
     /**
      * @param array $mockRequests
      */
-    private function setMockRequests(array $mockRequests)
+    public function setMockRequests(array $mockRequests)
     {
         $this->mockRequests = $mockRequests;
     }
@@ -234,7 +256,7 @@ class SoapClient extends \SoapClient
     /**
      * @param array $mockResponses
      */
-    private function setMockResponses(array $mockResponses)
+    public function setMockResponses(array $mockResponses)
     {
         $this->mockResponses = $mockResponses;
     }
