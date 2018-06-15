@@ -125,8 +125,7 @@ class SoapClient extends \SoapClient
                     $request = file_get_contents($mockRequest);
                     break;
                 }
-            }
-            else {
+            } else {
                 if (is_callable($mockRequest)) {
                     if ($responseFilePath = $mockRequest($request, $location, $action, $version, $one_way)) {
                         $request = file_get_contents($mockRequest);
