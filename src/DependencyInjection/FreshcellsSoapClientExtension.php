@@ -29,6 +29,10 @@ class FreshcellsSoapClientExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
+        if($config['enable_profiler']) {
+            $loader->load('data_collector.xml');
+        }
+
         if ($config['logger']) {
             $subscriber = $container->getDefinition(LogPlugin::class);
             $subscriber->replaceArgument(0, new Reference($config['logger']));

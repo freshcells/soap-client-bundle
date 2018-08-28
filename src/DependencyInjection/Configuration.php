@@ -22,7 +22,8 @@ class Configuration implements ConfigurationInterface
         $rootNode    = $treeBuilder->root('freshcells_soap_client');
 
         $rootNode->children()
-                 ->scalarNode('logger')->defaultFalse()->end();
+                    ->scalarNode('logger')->defaultFalse()->end()
+                    ->scalarNode('enable_profiler')->defaultTrue()->end();
 
         return $treeBuilder;
     }
