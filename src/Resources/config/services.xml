@@ -10,8 +10,6 @@
 
     <services>
 
-        <service id="freshcells_soap_client.logger.service" alias="logger" public="false" />
-
         <service id="Freshcells\SoapClientBundle\Plugin\LogPlugin" public="false">
             <argument type="service" id="logger" />
         </service>
