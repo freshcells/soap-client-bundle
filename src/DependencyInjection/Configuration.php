@@ -18,8 +18,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode    = $treeBuilder->root('freshcells_soap_client');
+        $treeBuilder = new TreeBuilder('freshcells_soap_client');
+        $rootNode    = $treeBuilder->getRootNode();
 
         $rootNode->children()
                     ->scalarNode('logger')->defaultFalse()->end()

@@ -9,4 +9,4 @@
 /.scrutinizer.yml   export-ignore
 /tests              export-ignore
 /docs               export-ignore
-/freshcells_soap_client_bundle_profiler.png
+/freshcells_soap_client_bundle_profiler.png export-ignore
