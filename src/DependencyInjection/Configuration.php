@@ -19,7 +19,12 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder('freshcells_soap_client');
-        $rootNode    = $treeBuilder->getRootNode();
+        if (method_exists($treeBuilder, 'getRootNode')) {
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            // BC layer for symfony/config < 4.2
+            $rootNode = $treeBuilder->root('freshcells_soap_client');
+        }
 
         $rootNode->children()
                     ->scalarNode('logger')->defaultFalse()->end()
