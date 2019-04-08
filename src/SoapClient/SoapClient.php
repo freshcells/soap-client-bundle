@@ -12,7 +12,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 /**
  * Class SoapClient
  */
-class SoapClient extends \SoapClient
+class SoapClient extends \SoapClient implements SoapClientInterface
 {
     /**
      * @var array
