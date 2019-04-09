@@ -4,3 +4,4 @@ vendor
 tests/cache
 docker
 docker-compose.yml
+var
