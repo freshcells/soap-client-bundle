@@ -3,6 +3,7 @@
 namespace Freshcells\SoapClientBundle\Tests\Functional;
 
 use Freshcells\SoapClientBundle\SoapClient\SoapClient;
+use Freshcells\SoapClientBundle\SoapClient\SoapClientInterface;
 use Gamez\Psr\Log\TestLogger;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,6 +37,14 @@ class FunctionalTest extends WebTestCase
 
         $container->get('profiler')->get('freshcells_soap_client')->collect(new Request(), new Response());
         $this->assertEquals(1, $container->get('profiler')->get('freshcells_soap_client')->getTotal());
+    }
+
+    public function testInterface()
+    {
+        $container = static::$kernel->getContainer();
+
+        $soapClient = $container->get(SoapClient::class);
+        $this->assertInstanceOf(SoapClientInterface::class, $soapClient);
     }
 
     /**
