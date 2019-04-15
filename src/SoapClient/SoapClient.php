@@ -72,6 +72,11 @@ class SoapClient extends \SoapClient implements SoapClientInterface
         $this->options = $options;
     }
 
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
+
     public function __call($function_name, $arguments)
     {
         try {

@@ -4,6 +4,8 @@ All notable changes to `soap-client-bundle` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+- 1.4.0
+  introduced getOptions method to retrieve all SoapClient options (default + custom)
 - 1.3.0
   introduced interface for SoapClient
   upgrade phpunit to v7

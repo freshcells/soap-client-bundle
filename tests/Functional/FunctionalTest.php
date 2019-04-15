@@ -76,4 +76,48 @@ class FunctionalTest extends WebTestCase
 
         $this->assertEquals('string', $response->DailyDilbertResult);
     }
+
+    public function testDefaultOptions()
+    {
+        $expectedOptions = [
+            // default options
+            'compression'        => (SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP),
+            'cache_wsdl'         => WSDL_CACHE_BOTH,
+            'connection_timeout' => 60,
+            'exceptions'         => true,
+            'features'           => SOAP_SINGLE_ELEMENT_ARRAYS,
+            'soap_version'       => SOAP_1_2,
+            'trace'              => true,
+            'user_agent'         => 'freshcells/soap-client-bundle',
+            // generated
+            'location'           => 'http://gcomputer.net/webservices/dilbert.asmx',
+        ];
+
+        $container = static::$kernel->getContainer();
+
+        $soapClient = $container->get('soap_client_without_custom_options');
+
+        $this->assertEquals($expectedOptions, $soapClient->getOptions());
+    }
+
+    public function testCustomOptions()
+    {
+        $expectedOptions = [
+            'compression'        => (SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP),
+            'cache_wsdl'         => WSDL_CACHE_BOTH,
+            'connection_timeout' => 5,
+            'exceptions'         => true,
+            'features'           => SOAP_SINGLE_ELEMENT_ARRAYS,
+            'soap_version'       => SOAP_1_1,
+            'trace'              => false,
+            'user_agent'         => 'freshcells/soap-client-bundle',
+            'location'           => 'http://gcomputer.net/webservices/dilbert.asmx',
+        ];
+
+        $container = static::$kernel->getContainer();
+
+        $soapClient = $container->get('soap_client_with_custom_options');
+
+        $this->assertEquals($expectedOptions, $soapClient->getOptions());
+    }
 }

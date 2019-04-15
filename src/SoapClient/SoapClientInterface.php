@@ -13,4 +13,6 @@ interface SoapClientInterface
     public function setMockResponses(array $mockResponses);
 
     public function setDispatcher(EventDispatcherInterface $dispatcher);
+
+    public function getOptions(): array;
 }
