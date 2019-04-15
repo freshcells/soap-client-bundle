@@ -30,7 +30,7 @@ $ composer require freshcells/soap-client-bundle
 Initalize the bundle:
 
     freshcells_soap_client:
-      logger: monolog.logger.booking
+      logger: monolog.logger.soap
 
 Create a Soap Client service and tag it with `freshcells_soap_client.client` 
 
