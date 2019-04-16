@@ -140,7 +140,7 @@ class SoapClient extends \SoapClient implements SoapClientInterface
             }
         }
 
-        $this->preCall($id->toString(), $action, $request);
+        $this->preCall($id->toString(), (string)$action, $request);
 
         foreach ($this->mockResponses as $key => $mockResponse) {
             if (is_string($key)) {
@@ -174,7 +174,7 @@ class SoapClient extends \SoapClient implements SoapClientInterface
 
         $response = parent::__doRequest($request, $location, $action, $version, $one_way);
 
-        $this->postCall($id->toString(), $action, $response);
+        $this->postCall($id->toString(), (string)$action, $response);
 
         if ($socketTimeout !== false) {
             ini_set('default_socket_timeout', $socketTimeout);
