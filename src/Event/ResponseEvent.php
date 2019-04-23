@@ -38,18 +38,18 @@ class ResponseEvent extends Event
      * ResponseEvent constructor.
      * @param string $id
      * @param string $resource
-     * @param string $requestContent
-     * @param string $requestHeaders
-     * @param string $responseContent
-     * @param string $responseHeaders
+     * @param string|null $requestContent
+     * @param string|null $requestHeaders
+     * @param string|null $responseContent
+     * @param string|null $responseHeaders
      */
     public function __construct(
         string $id,
         string $resource,
-        string $requestContent,
-        string $requestHeaders = null,
-        string $responseContent = null,
-        string $responseHeaders = null
+        ?string $requestContent = null,
+        ?string $requestHeaders = null,
+        ?string $responseContent = null,
+        ?string $responseHeaders = null
     ) {
         $this->id              = $id;
         $this->resource        = $resource;
@@ -78,7 +78,7 @@ class ResponseEvent extends Event
     /**
      * @return string
      */
-    public function getRequestContent(): string
+    public function getRequestContent(): ?string
     {
         return $this->requestContent;
     }
