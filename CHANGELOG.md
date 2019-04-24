@@ -6,6 +6,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 - 1.4.0
   introduced getOptions method to retrieve all SoapClient options (default + custom)
+  fixed null handling in ResponseEvent & pre- and postCall
 - 1.3.0
   introduced interface for SoapClient
   upgrade phpunit to v7
