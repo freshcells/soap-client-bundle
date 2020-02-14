@@ -2,8 +2,6 @@
 
 namespace Freshcells\SoapClientBundle\Event;
 
-use Symfony\Component\EventDispatcher\Event;
-
 class FaultEvent extends Event
 {
     /**
