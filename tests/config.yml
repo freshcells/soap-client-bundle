@@ -57,7 +57,7 @@ framework:
     secret: test
     profiler:
         collect: true
-    test: ~
+    test: true
 
 freshcells_soap_client:
     logger: Gamez\Psr\Log\TestLogger
