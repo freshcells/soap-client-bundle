@@ -17,8 +17,9 @@
         </testsuite>
     </testsuites>
     <php>
-        <server name="KERNEL_DIR" value="./tests"/>
-        <server name="KERNEL_CLASS" value="Freshcells\SoapClientBundle\Tests\AppKernel"/>
+        <env name="KERNEL_DIR" value="./tests"/>
+        <env name="KERNEL_CLASS" value="Freshcells\SoapClientBundle\Tests\AppKernel"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled" />
     </php>
     <filter>
         <whitelist>
