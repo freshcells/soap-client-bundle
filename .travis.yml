@@ -23,7 +23,7 @@ env:
   - COMPOSER_FLAGS="" SYMFONY_VERSION=^5.0
 
 before_script:
-  - travis_retry composer require --no-interaction ${COMPOSER_FLAGS} symfony/config:${SYMFONY_VERSION} symfony/dependency-injection:${SYMFONY_VERSION} symfony/event-dispatcher:${SYMFONY_VERSION} symfony/http-kernel:${SYMFONY_VERSION}
+  - travis_retry composer require --no-interaction ${COMPOSER_FLAGS} symfony/browser-kit:${SYMFONY_VERSION} symfony/config:${SYMFONY_VERSION} symfony/dependency-injection:${SYMFONY_VERSION} symfony/event-dispatcher:${SYMFONY_VERSION} symfony/http-kernel:${SYMFONY_VERSION}
 
 script:
   - vendor/bin/phpcs --standard=psr2 src/
