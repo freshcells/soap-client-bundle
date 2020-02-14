@@ -16,15 +16,15 @@ cache:
     - $HOME/.composer/cache
 
 env:
-  - COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_VERSION=^3.4
+  - COMPOSER_FLAGS="--prefer-lowest" SYMFONY_VERSION=^3.4
   - COMPOSER_FLAGS="" SYMFONY_VERSION=^3.4
-  - COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_VERSION=^4.3
+  - COMPOSER_FLAGS="--prefer-lowest" SYMFONY_VERSION=^4.3
   - COMPOSER_FLAGS="" SYMFONY_VERSION=^4.3
-  - COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_VERSION=^5.0
+  - COMPOSER_FLAGS="--prefer-lowest" SYMFONY_VERSION=^5.0
   - COMPOSER_FLAGS="" SYMFONY_VERSION=^5.0
 
 before_script:
-  - travis_retry composer require --no-interaction --prefer-dist ${COMPOSER_FLAGS} symfony/config:${SYMFONY_VERSION} symfony/dependency-injection:${SYMFONY_VERSION} symfony/event-dispatcher:${SYMFONY_VERSION} symfony/http-kernel:${SYMFONY_VERSION}
+  - travis_retry composer require --no-interaction ${COMPOSER_FLAGS} symfony/config:${SYMFONY_VERSION} symfony/dependency-injection:${SYMFONY_VERSION} symfony/event-dispatcher:${SYMFONY_VERSION} symfony/http-kernel:${SYMFONY_VERSION}
 
 script:
   - vendor/bin/phpcs --standard=psr2 src/
