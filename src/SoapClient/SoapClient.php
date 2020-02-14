@@ -2,12 +2,14 @@
 
 namespace Freshcells\SoapClientBundle\SoapClient;
 
+use Freshcells\SoapClientBundle\Event\Event;
 use Freshcells\SoapClientBundle\Event\Events;
 use Freshcells\SoapClientBundle\Event\FaultEvent;
 use Freshcells\SoapClientBundle\Event\RequestEvent;
 use Freshcells\SoapClientBundle\Event\ResponseEvent;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy;
 
 /**
  * Class SoapClient
@@ -192,9 +194,7 @@ class SoapClient extends \SoapClient implements SoapClientInterface
      */
     protected function preCall(string $id, string $resource, string $requestContent = null)
     {
-        if (null !== $this->dispatcher) {
-            $this->dispatcher->dispatch(Events::REQUEST, new RequestEvent($id, $resource, $requestContent));
-        }
+        $this->dispatch(new RequestEvent($id, $resource, $requestContent), Events::REQUEST);
     }
 
     /**
@@ -204,17 +204,15 @@ class SoapClient extends \SoapClient implements SoapClientInterface
      */
     protected function postCall(string $id, string $resource, string $response = null)
     {
-        if (null !== $this->dispatcher) {
-            $responseEvent = new ResponseEvent(
-                $id,
-                $resource,
-                $this->__getLastRequest(),
-                $this->__getLastRequestHeaders(),
-                $response,
-                $this->__getLastResponseHeaders()
-            );
-            $this->dispatcher->dispatch(Events::RESPONSE, $responseEvent);
-        }
+        $responseEvent = new ResponseEvent(
+            $id,
+            $resource,
+            $this->__getLastRequest(),
+            $this->__getLastRequestHeaders(),
+            $response,
+            $this->__getLastResponseHeaders()
+        );
+        $this->dispatch($responseEvent, Events::RESPONSE);
     }
 
     /**
@@ -225,12 +223,10 @@ class SoapClient extends \SoapClient implements SoapClientInterface
      */
     protected function faultCall(string $id, string $resource, string $requestContent, \Exception $exception)
     {
-        if (null !== $this->dispatcher) {
-            $this->dispatcher->dispatch(
-                Events::FAULT,
-                new FaultEvent($id, $exception, new RequestEvent($id, $resource, $requestContent))
-            );
-        }
+        $this->dispatch(
+            new FaultEvent($id, $exception, new RequestEvent($id, $resource, $requestContent)),
+            Events::FAULT
+        );
     }
 
     /**
@@ -267,10 +263,15 @@ class SoapClient extends \SoapClient implements SoapClientInterface
 
     /**
      * @param EventDispatcherInterface $dispatcher
+     * @required
      */
     public function setDispatcher(EventDispatcherInterface $dispatcher)
     {
-        $this->dispatcher = $dispatcher;
+        if (class_exists(LegacyEventDispatcherProxy::class)) {
+            $this->dispatcher = LegacyEventDispatcherProxy::decorate($dispatcher);
+        } else {
+            $this->dispatcher = $dispatcher;
+        }
     }
 
     /**
@@ -288,5 +289,25 @@ class SoapClient extends \SoapClient implements SoapClientInterface
         }
 
         throw $e;
+    }
+
+    /**
+     * @param Event  $event
+     * @param string $eventName
+     */
+    private function dispatch(Event $event, $eventName)
+    {
+        if (null === $this->dispatcher) {
+            return;
+        }
+
+        // LegacyEventDispatcherProxy exists in Symfony >= 4.3
+        if (class_exists(LegacyEventDispatcherProxy::class)) {
+            // New Symfony 4.3 EventDispatcher signature
+            $this->dispatcher->dispatch($event, $eventName);
+        } else {
+            // Old EventDispatcher signature
+            $this->dispatcher->dispatch($eventName, $event);
+        }
     }
 }
