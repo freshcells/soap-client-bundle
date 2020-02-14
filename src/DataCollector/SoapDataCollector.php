@@ -6,9 +6,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Kernel;
 
+// @codingStandardsIgnoreStart
 if (Kernel::MAJOR_VERSION >= 5) {
     class SoapDataCollector extends AbstractSoapDataCollector
     {
+// @codingStandardsIgnoreEnd
         /**
          * {@inheritdoc}
          */
@@ -18,8 +20,10 @@ if (Kernel::MAJOR_VERSION >= 5) {
         }
     }
 } else {
+// @codingStandardsIgnoreStart
     class SoapDataCollector extends AbstractSoapDataCollector
     {
+// @codingStandardsIgnoreEnd
         /**
          * {@inheritdoc}
          */

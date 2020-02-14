@@ -267,7 +267,11 @@ class SoapClient extends \SoapClient implements SoapClientInterface
      */
     public function setDispatcher(EventDispatcherInterface $dispatcher)
     {
-        $this->dispatcher = class_exists(LegacyEventDispatcherProxy::class) ? LegacyEventDispatcherProxy::decorate($dispatcher) : $dispatcher;
+        if (class_exists(LegacyEventDispatcherProxy::class)) {
+            $this->dispatcher = LegacyEventDispatcherProxy::decorate($dispatcher);
+        } else {
+            $this->dispatcher = $dispatcher;
+        }
     }
 
     /**
