@@ -43,13 +43,13 @@ Create a Soap Client service and tag it with `freshcells_soap_client.client`
             mock_requests: '%mock_requests%'
             mock_responses: '%mock_responses%'
     services:
+        _instanceof:
+            Freshcells\SoapClientBundle\SoapClient\SoapClient:
+                tags: [ 'freshcells_soap_client.client' ]
+
         Freshcells\SoapClientBundle\SoapClient\SoapClient:
             arguments: ['%soap_wsdl%', '%soap_options%']
             public: true
-            tags:
-                - {name: freshcells_soap_client.client}
-            calls:
-                - [ setDispatcher, [ '@event_dispatcher']]
 
 
 SoapClients are created outside of the bundle to give more flexibility, f.e when using generators like https://github.com/wsdl2phpgenerator/wsdl2phpgenerator.  
