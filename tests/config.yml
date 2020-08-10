@@ -6,6 +6,8 @@ parameters:
     soap_options:
         mock_requests: '%mock_requests%'
         mock_responses: '%mock_responses%'
+    soap_options_local_wsdl:
+        location: 'http://gcomputer.net/webservices/dilbert.asmx'
     soap_client_with mock_detector_soap_options:
         mock_requests: '%mock_requests%'
     soap_client_with_custom_options_soap_options:
@@ -18,6 +20,14 @@ services:
         public: true
     Freshcells\SoapClientBundle\SoapClient\SoapClient:
         arguments: ['http://gcomputer.net/webservices/dilbert.asmx?WSDL', '%soap_options%']
+        public: true
+        tags:
+            - {name: fcse_soap.client}
+        calls:
+            - [ setDispatcher, [ '@event_dispatcher']]
+    soap_client_with local_wsdl:
+        class: Freshcells\SoapClientBundle\SoapClient\SoapClient
+        arguments: ['%kernel.project_dir%/tests/Fixtures/dilbert.wsdl', '%soap_options_local_wsdl%']
         public: true
         tags:
             - {name: fcse_soap.client}

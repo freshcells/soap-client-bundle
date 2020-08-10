@@ -39,6 +39,15 @@ class FunctionalTest extends WebTestCase
         $this->assertEquals(1, $container->get('profiler')->get('freshcells_soap_client')->getTotal());
     }
 
+    public function testLocalWsdl()
+    {
+        $this->markTestSkipped('Needs internet connection, just for demo purposes');
+        $container = static::$kernel->getContainer();
+
+        $soapClient = $container->get('soap_client_with local_wsdl');
+        $response = $soapClient->DailyDilbert('heureka');
+    }
+
     public function testInterface()
     {
         $container = static::$kernel->getContainer();
