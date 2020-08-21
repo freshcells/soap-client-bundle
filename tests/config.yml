@@ -7,7 +7,7 @@ parameters:
         mock_requests: '%mock_requests%'
         mock_responses: '%mock_responses%'
     soap_options_local_wsdl:
-        location: 'http://gcomputer.net/webservices/dilbert.asmx'
+         connection_timeout: 10
     soap_client_with mock_detector_soap_options:
         mock_requests: '%mock_requests%'
     soap_client_with_custom_options_soap_options:

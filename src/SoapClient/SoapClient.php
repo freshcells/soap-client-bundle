@@ -65,7 +65,9 @@ class SoapClient extends \SoapClient implements SoapClientInterface
 
         if (!is_null($wsdl)) {
             // if option 'location' not set explicit use WSDL URL as service location
-            if (!isset($options['location'])) {
+            // this was added for some obscure reason
+            // dont use for local wsdl
+            if (!isset($options['location']) && substr($wsdl, 0, 4) === "http") {
                 $options['location'] = $this->resolveLocation($wsdl);
             }
         }
@@ -292,7 +294,7 @@ class SoapClient extends \SoapClient implements SoapClientInterface
     }
 
     /**
-     * @param Event  $event
+     * @param Event $event
      * @param string $eventName
      */
     private function dispatch(Event $event, $eventName)

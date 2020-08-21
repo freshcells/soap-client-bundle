@@ -45,7 +45,8 @@ class FunctionalTest extends WebTestCase
         $container = static::$kernel->getContainer();
 
         $soapClient = $container->get('soap_client_with local_wsdl');
-        $response = $soapClient->DailyDilbert('heureka');
+        $response   = $soapClient->DailyDilbert('heureka');
+        $this->assertTrue(isset($response->DailyDilbertResult));
     }
 
     public function testInterface()
@@ -61,7 +62,7 @@ class FunctionalTest extends WebTestCase
      */
     public function testFault()
     {
-        $container = static::$kernel->getContainer();
+        $container  = static::$kernel->getContainer();
         $soapClient = $container->get(SoapClient::class);
 
         try {
@@ -79,9 +80,9 @@ class FunctionalTest extends WebTestCase
 
     public function testMockDetector()
     {
-        $container = static::$kernel->getContainer();
+        $container  = static::$kernel->getContainer();
         $soapClient = $container->get('soap_client_with mock_detector');
-        $response = $soapClient->DailyDilbert('heureka');
+        $response   = $soapClient->DailyDilbert('heureka');
 
         $this->assertEquals('string', $response->DailyDilbertResult);
     }
