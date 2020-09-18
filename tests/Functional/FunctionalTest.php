@@ -98,9 +98,7 @@ class FunctionalTest extends WebTestCase
             'features'           => SOAP_SINGLE_ELEMENT_ARRAYS,
             'soap_version'       => SOAP_1_2,
             'trace'              => true,
-            'user_agent'         => 'freshcells/soap-client-bundle',
-            // generated
-            'location'           => 'http://gcomputer.net/webservices/dilbert.asmx',
+            'user_agent'         => 'freshcells/soap-client-bundle'
         ];
 
         $container = static::$kernel->getContainer();
@@ -120,8 +118,7 @@ class FunctionalTest extends WebTestCase
             'features'           => SOAP_SINGLE_ELEMENT_ARRAYS,
             'soap_version'       => SOAP_1_1,
             'trace'              => false,
-            'user_agent'         => 'freshcells/soap-client-bundle',
-            'location'           => 'http://gcomputer.net/webservices/dilbert.asmx',
+            'user_agent'         => 'freshcells/soap-client-bundle'
         ];
 
         $container = static::$kernel->getContainer();

@@ -63,15 +63,6 @@ class SoapClient extends \SoapClient implements SoapClientInterface
 
         $options = array_merge($defaults, $options);
 
-        if (!is_null($wsdl)) {
-            // if option 'location' not set explicit use WSDL URL as service location
-            // this was added for some obscure reason
-            // dont use for local wsdl
-            if (!isset($options['location']) && substr($wsdl, 0, 4) === "http") {
-                $options['location'] = $this->resolveLocation($wsdl);
-            }
-        }
-
         $this->SoapClient($wsdl, $options);
         $this->options = $options;
     }
@@ -229,22 +220,6 @@ class SoapClient extends \SoapClient implements SoapClientInterface
             new FaultEvent($id, $exception, new RequestEvent($id, $resource, $requestContent)),
             Events::FAULT
         );
-    }
-
-    /**
-     * @param string $wsdl
-     * @return string
-     */
-    protected function resolveLocation($wsdl)
-    {
-        $wsdlUrl = parse_url($wsdl);
-
-        return ((isset($wsdlUrl['scheme'])) ? $wsdlUrl['scheme'].'://' : '')
-            .((isset($wsdlUrl['user'])) ? $wsdlUrl['user']
-                .((isset($wsdlUrl['pass'])) ? ':'.$wsdlUrl['pass'] : '').'@' : '')
-            .((isset($wsdlUrl['host'])) ? $wsdlUrl['host'] : '')
-            .((isset($wsdlUrl['port'])) ? ':'.$wsdlUrl['port'] : '')
-            .((isset($wsdlUrl['path'])) ? $wsdlUrl['path'] : '');
     }
 
     /**
