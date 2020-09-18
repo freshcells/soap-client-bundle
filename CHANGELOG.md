@@ -4,6 +4,9 @@ All notable changes to `soap-client-bundle` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+### 1.6.0  
+  - removed location resolving from wsdl  
+  - fixed dark-theme
 ### 1.5.0  
   - symfony5 compat  
   - dropped PHP7.1 support
