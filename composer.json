@@ -30,7 +30,7 @@
         "symfony/config": "^3.4 || ^4.3 || ^5.0",
         "symfony/dependency-injection": "^3.4 || ^4.3 || ^5.0",
         "symfony/event-dispatcher": "^3.4 || ^4.3 || ^5.0",
-        "symfony/http-kernel": "^3.4 || ^4.3 || ^5.0"
+        "symfony/http-kernel": "^3.4 || ^4.3 || ^5.1.5"
     },
     "require-dev": {
         "gamez/psr-testlogger": "^2.0",
