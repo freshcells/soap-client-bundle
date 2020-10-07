@@ -65,13 +65,13 @@
 {% block panel %}
     {% set profiler_markup_version = profiler_markup_version|default(1) %}
     <style>
-        .soap-response-container {
+        .soap-xml-container {
             background: #F5F5F5;
             margin: .5em 0;
             padding: 1em;
             border: 1px solid #DDD;
         }
-        .theme-dark .soap-response-container {
+        .theme-dark .soap-xml-container {
             background: #36393e;
             color: #e0e0e0;
         }
@@ -99,9 +99,13 @@
             display:block;
             padding: 5px;
         }
-        .call .accordion .accordion-content h4{
+        .accordion .call .accordion-content h4{
             margin: 0;
             padding: 5px 0;
+        }
+        .accordion .call .accordion-content .download{
+            float: right;
+            padding: 5px;
         }
         .tab-navigation {
             border-bottom: 1px solid #666;
@@ -164,7 +168,7 @@
                                     <h4>Headers</h4>
                                     <div>{{ request.request_headers|nl2br }}</div>
                                     <h4>Content</h4>
-                                    <pre class="soap-response-container">{{ request.request_body }}</pre>
+                                    <pre class="soap-xml-container" id="soap-xml-container-{{ loop.index }}-request">{{ request.request_body }}</pre>
                                 </div>
                             </div>
                             <div class="tab">
@@ -173,7 +177,7 @@
                                     <h4>Headers</h4>
                                     <div>{{ request.response_headers|nl2br }}</div>
                                     <h4>Content</h4>
-                                    <pre class="soap-response-container">{{ request.response_body }}</pre>
+                                    <pre class="soap-xml-container" id="soap-xml-container-{{ loop.index }}-response">{{ request.response_body }}</pre>
                                 </div>
                             </div>
                         </div>
@@ -181,8 +185,6 @@
                 </section>
             {% endfor %}
         </div>
-        </tbody>
-        </table>
 
         <script type="text/javascript">
             var FreshcellsSoap = FreshcellsSoap || {};
@@ -207,7 +209,28 @@
                     }
                 }
             };
+            FreshcellsSoap.download = function () {
+                var elements = document.querySelectorAll('.soap-xml-container');
+                for (var i = 0, l = elements.length, element; i < l, element = elements[i]; i++) {
+                    var uri = 'data:text/xml;charset=utf-8,' + encodeURIComponent(element.innerText);
+
+                    var link = document.createElement("a");
+                    link.setAttribute('href', uri);
+                    link.setAttribute('download', element.id + ".xml");
+                    link.classList.add('download');
+                    {% if profiler_markup_version == 1 %}
+                    link.innerHTML = '<img alt="download" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAY1BMVEUAAACAgIBVVVVmZmZVVVVmZmZpaWlhYWFkZGRmZmZjY2NkZGRjY2NgYGBkZGRiYmJjY2NhYWFhYWFhYWFiYmJiYmJiYmJhYWFiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmL////KEkZqAAAAH3RSTlMAAgMFBgoRFRweJCksLS4vMTI3T3+8vb/K6uvz+fr7ERVR4QAAAAFiS0dEILNrPYAAAABZSURBVBjTjY83EoAwAMNMC733qv//kgkIW7RJ58WSIxlkv5BDbrvfQedbobngauzJAMMrkTGhNy9BaEwkSe0Ja5yk8QZHK6kHGKt6Auif8OAWyv3zvXC4eQOdQAtMXvxVewAAAABJRU5ErkJggg=="/>';
+                    {% else %}
+                    link.innerHTML = '{{ include('@FreshcellsSoapClient/Collector/download.svg')|e('js') }}';
+                    {% endif %}
+
+                    element.parentNode.insertBefore(link, element);
+                }
+            };
+
             document.addEventListener('DOMContentLoaded', FreshcellsSoap.accordion, false);
+            document.addEventListener('DOMContentLoaded', FreshcellsSoap.download, false);
+
             {% if profiler_markup_version == 1 %}
             //<![CDATA[
             function toggle(target) {
