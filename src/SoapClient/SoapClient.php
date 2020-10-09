@@ -81,7 +81,7 @@ class SoapClient extends \SoapClient implements SoapClientInterface
                 throw $response;
             }
         } catch (\Exception $e) {
-            $this->handleFault($function_name, $arguments, $e);
+            $this->handleFault($function_name, $arguments[0] ?? [], $e);
         }
 
         return $response;
