@@ -64,10 +64,10 @@ class DataCollectorPlugin implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             Events::REQUEST  => 'onClientRequest',
             Events::RESPONSE => 'onClientResponse',
             Events::FAULT    => 'onClientFault'
-        );
+        ];
     }
 }

@@ -23,9 +23,9 @@ class ClientCompilerPass implements CompilerPassInterface
             if (isset($tags[0]['no_dispatcher']) === false) {
                 $clientDefinition->addMethodCall(
                     'setDispatcher',
-                    array(
-                        new Reference($container->getParameter('freshcells_soap_client.event_dispatcher.service')),
-                    )
+                    [
+                        new Reference($container->getParameter('freshcells_soap_client.event_dispatcher.service'))
+                    ]
                 );
             }
         }

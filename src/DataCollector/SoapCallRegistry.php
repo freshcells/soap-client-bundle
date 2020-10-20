@@ -17,14 +17,14 @@ class SoapCallRegistry
      */
     public function addRequest(RequestEvent $event)
     {
-        $request                      = array(
+        $request                      = [
             'resource'         => $event->getResource(),
             'request_headers'  => '',
             'request_body'     => $this->prettyXML($event->getRequest()),
             'response_headers' => '',
             'response_body'    => '',
             'start'            => microtime(true),
-        );
+        ];
         $this->calls[$event->getId()] = $request;
     }
 

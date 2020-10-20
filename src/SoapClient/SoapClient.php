@@ -50,7 +50,7 @@ class SoapClient extends \SoapClient implements SoapClientInterface
             unset($options['mock_responses']);
         }
 
-        $defaults = array(
+        $defaults = [
             'compression'        => (SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP),
             'cache_wsdl'         => WSDL_CACHE_BOTH,
             'connection_timeout' => 60,
@@ -59,7 +59,7 @@ class SoapClient extends \SoapClient implements SoapClientInterface
             'soap_version'       => SOAP_1_2,
             'trace'              => true,
             'user_agent'         => 'freshcells/soap-client-bundle',
-        );
+        ];
 
         $options = array_merge($defaults, $options);
 
