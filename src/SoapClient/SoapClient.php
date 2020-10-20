@@ -9,7 +9,7 @@ use Freshcells\SoapClientBundle\Event\RequestEvent;
 use Freshcells\SoapClientBundle\Event\ResponseEvent;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy;
+use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * Class SoapClient
@@ -244,11 +244,7 @@ class SoapClient extends \SoapClient implements SoapClientInterface
      */
     public function setDispatcher(EventDispatcherInterface $dispatcher)
     {
-        if (class_exists(LegacyEventDispatcherProxy::class)) {
-            $this->dispatcher = LegacyEventDispatcherProxy::decorate($dispatcher);
-        } else {
-            $this->dispatcher = $dispatcher;
-        }
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -278,13 +274,13 @@ class SoapClient extends \SoapClient implements SoapClientInterface
             return;
         }
 
-        // LegacyEventDispatcherProxy exists in Symfony >= 4.3
-        if (class_exists(LegacyEventDispatcherProxy::class)) {
-            // New Symfony 4.3 EventDispatcher signature
-            $this->dispatcher->dispatch($event, $eventName);
-        } else {
+        // EventDispatcher signature changed in Symfony 4.3
+        if (Kernel::VERSION_ID < 40300) {
             // Old EventDispatcher signature
             $this->dispatcher->dispatch($eventName, $event);
+        } else {
+            // New Symfony 4.3 EventDispatcher signature
+            $this->dispatcher->dispatch($event, $eventName);
         }
     }
 }
