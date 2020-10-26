@@ -4,6 +4,11 @@ All notable changes to `soap-client-bundle` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+### 1.7.0  
+  - added download for requests in profiler
+  - fixed fault handler
+  - use array short notation
+  - improved LegacyEventDispatcherProxy usage
 ### 1.6.0  
   - removed location resolving from wsdl  
   - fixed dark-theme
