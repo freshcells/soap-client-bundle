@@ -81,7 +81,7 @@ class SoapClient extends \SoapClient implements SoapClientInterface
                 throw $response;
             }
         } catch (\Exception $e) {
-            $this->handleFault($function_name, $arguments[0] ?? [], $e);
+            $this->handleFault($function_name, $arguments, $e);
         }
 
         return $response;
@@ -256,7 +256,7 @@ class SoapClient extends \SoapClient implements SoapClientInterface
     {
         $request = $this->__getLastRequest();
         if ($request === null) { //only dispatch this when no request was fired
-            $request = implode(' ', $arguments);
+            $request = print_r($arguments, true);
             $id      = Uuid::uuid1();
             $this->faultCall($id->toString(), $function_name, $request, $e);
         }

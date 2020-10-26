@@ -58,24 +58,33 @@ class FunctionalTest extends WebTestCase
     }
 
     /**
+     * @dataProvider provideFaultyData
      * @expectedException \Exception
      */
-    public function testFault()
+    public function testFault($value, $count)
     {
         $container  = static::$kernel->getContainer();
         $soapClient = $container->get(SoapClient::class);
 
         try {
-            $response = $soapClient->NoSuchAction('heureka');
+            $response = $soapClient->NoSuchAction($value);
         } catch (\Exception $e) {
             $log = $container->get(TestLogger::class)->log;
-            $this->assertCount(1, $log);
+            $this->assertCount($count, $log);
 
             $container->get('profiler')->get('freshcells_soap_client')->collect(new Request(), new Response());
             $this->assertEquals(1, $container->get('profiler')->get('freshcells_soap_client')->getTotal());
 
             throw $e;
         }
+    }
+
+    public function provideFaultyData()
+    {
+        return [
+            ['heureka', 1],
+            [['val' => 'heureka'], 1]
+        ];
     }
 
     public function testMockDetector()
