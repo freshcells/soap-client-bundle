@@ -161,9 +161,7 @@ class SoapClient extends \SoapClient implements SoapClientInterface
 
         /* workaround for working timeout */
         $socketTimeout = false;
-        if (isset($this->options['connection_timeout'])
-            && (int)$this->options['connection_timeout'] > (int)ini_get('default_socket_timeout')
-        ) {
+        if (isset($this->options['connection_timeout'])) {
             $socketTimeout = ini_set('default_socket_timeout', $this->options['connection_timeout']);
         }
 
