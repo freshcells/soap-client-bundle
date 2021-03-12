@@ -28,6 +28,16 @@ class Configuration implements ConfigurationInterface
 
         $rootNode->children()
                     ->scalarNode('logger')->defaultFalse()->end()
+                    ->arrayNode('anonymize_logs')
+                    ->children()
+                            ->arrayNode('elements')
+                                ->scalarPrototype()->end()
+                            ->end()
+                            ->arrayNode('attributes')
+                                ->scalarPrototype()->end()
+                            ->end()
+                    ->end()
+                    ->end()
                     ->scalarNode('enable_profiler')->defaultTrue()->end();
 
         return $treeBuilder;

@@ -13,6 +13,11 @@
         <service id="Freshcells\SoapClientBundle\Plugin\LogPlugin" public="false">
             <argument type="service" id="logger" />
         </service>
+        <service id="Freshcells\SoapClientBundle\Plugin\AnonymizerLogPlugin" public="false">
+            <argument type="service" id="logger" />
+            <argument key="$elements" type="collection"></argument>
+            <argument key="$attributes" type="collection"></argument>
+        </service>
 
     </services>
 
