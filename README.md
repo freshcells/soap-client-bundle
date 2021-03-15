@@ -13,6 +13,7 @@ Symfony integration for an advanced SoapClient.
 
 ## Features
 - Logging of requests, responses and faults
+- XML can be anonymized before logging
 - DataCollector and symfony profiler integration
 - Events are dispatched before, after requests and in case of SoapFault
 - Provide mock requests and responses while testing and developing
