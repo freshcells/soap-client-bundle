@@ -85,7 +85,7 @@ class AnonymizerLogPlugin implements EventSubscriberInterface
      */
     public function onClientFault(FaultEvent $event)
     {
-        $requestContent = $this->anonymize(print_r($event->getRequestContent(), true));
+        $requestContent = $this->anonymize(print_r($event->getRequestEvent()->getRequest(), true));
         $this->logger->error(sprintf(
             '[freshcells/soap-client-bundle] fault "%s" for request "%s" with params %s',
             $event->getException()->getMessage(),
