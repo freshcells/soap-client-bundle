@@ -99,8 +99,8 @@ class AnonymizerLogPlugin implements EventSubscriberInterface
         //elements
         foreach ($this->elements as $field) {
             $content = preg_replace(
-                sprintf('/<%s[^>]*>.*?<\/%s>/i', $field, $field),
-                sprintf('<%s>%s</%s>', $field, $this->substitute, $field),
+                sprintf('/<(%s[^>]*)>.*?<\/(%s)>/i', $field, $field),
+                sprintf('<%s>%s</%s>', '$1', $this->substitute, '$2'),
                 $content
             );
         }
