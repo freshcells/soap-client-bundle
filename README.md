@@ -31,6 +31,11 @@ Initalize the bundle:
 
     freshcells_soap_client:
       logger: monolog.logger.soap
+      anonymize_logs: # in case you need to anonymize certains elements in the xml logs
+        elements:
+          - 'GivenName'
+          - 'ns1:GivenName'
+        attributes: [ 'PhoneNumber' ]
 
 Create a Soap Client service and tag it with `freshcells_soap_client.client` 
 
