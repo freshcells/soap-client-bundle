@@ -60,7 +60,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "1.7-dev"
+            "dev-main": "1.8-dev"
         }
     },
     "config": {

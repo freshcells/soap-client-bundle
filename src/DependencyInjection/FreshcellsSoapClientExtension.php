@@ -36,10 +36,14 @@ class FreshcellsSoapClientExtension extends Extension
 
         if ($config['logger']) {
             $subscriber = $container->getDefinition(LogPlugin::class);
-            if (isset($config['anonymize_logs']['elements']) && isset($config['anonymize_logs']['attributes'])) {
+            if (isset($config['anonymize_logs']['elements']) || isset($config['anonymize_logs']['attributes'])) {
                 $subscriber = $container->getDefinition(AnonymizerLogPlugin::class);
-                $subscriber->replaceArgument('$elements', $config['anonymize_logs']['elements']);
-                $subscriber->replaceArgument('$attributes', $config['anonymize_logs']['attributes']);
+                if (isset($config['anonymize_logs']['elements'])) {
+                    $subscriber->replaceArgument('$elements', $config['anonymize_logs']['elements']);
+                }
+                if (isset($config['anonymize_logs']['attributes'])) {
+                    $subscriber->replaceArgument('$attributes', $config['anonymize_logs']['attributes']);
+                }
             }
             $subscriber->replaceArgument(0, new Reference($config['logger']));
             $subscriber->addTag('kernel.event_subscriber');

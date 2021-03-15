@@ -32,7 +32,7 @@ Initalize the bundle:
 
     freshcells_soap_client:
       logger: monolog.logger.soap
-      anonymize_logs: # in case you need to anonymize certains elements in the xml logs
+      anonymize_logs: # in case you need to anonymize certain elements in the xml logs
         elements:
           - 'GivenName'
           - 'ns1:GivenName'
