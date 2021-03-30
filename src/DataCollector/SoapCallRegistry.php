@@ -7,14 +7,8 @@ use Freshcells\SoapClientBundle\Event\ResponseEvent;
 
 class SoapCallRegistry
 {
-    /**
-     * @var array
-     */
-    private $calls = [];
+    private array $calls = [];
 
-    /**
-     * @param RequestEvent $event
-     */
     public function addRequest(RequestEvent $event)
     {
         $request                      = [
@@ -28,9 +22,6 @@ class SoapCallRegistry
         $this->calls[$event->getId()] = $request;
     }
 
-    /**
-     * @param ResponseEvent $event
-     */
     public function addResponse(ResponseEvent $event)
     {
         $id                                   = $event->getId();
@@ -45,10 +36,6 @@ class SoapCallRegistry
         $this->calls[$id]['duration']         = ($this->calls[$id]['end'] - $this->calls[$id]['start']);
     }
 
-    /**
-     * @param string $xml
-     * @return string
-     */
     private function prettyXML(string $xml): string
     {
         try {
@@ -65,9 +52,6 @@ class SoapCallRegistry
         return $xml;
     }
 
-    /**
-     * @return array
-     */
     public function getCalls(): array
     {
         return $this->calls;

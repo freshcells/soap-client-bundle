@@ -37,6 +37,10 @@ Initalize the bundle:
           - 'GivenName'
           - 'ns1:GivenName'
         attributes: [ 'PhoneNumber' ]
+      truncate_element_logs: # in case you need to truncate some elements because values are too long for logging
+        elements:
+          - 'DailyDilbertResult'
+        max_length: 2
 
 Create a Soap Client service and tag it with `freshcells_soap_client.client` 
 

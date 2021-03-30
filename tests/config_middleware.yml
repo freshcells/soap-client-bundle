@@ -16,7 +16,7 @@ parameters:
         trace: false
 
 services:
-    Gamez\Psr\Log\TestLogger:
+    Psr\Log\Test\TestLogger:
         public: true
     Freshcells\SoapClientBundle\SoapClient\SoapClient:
         arguments: ['http://gcomputer.net/webservices/dilbert.asmx?WSDL', '%soap_options%']
@@ -70,9 +70,12 @@ framework:
     test: true
 
 freshcells_soap_client:
-    logger: Gamez\Psr\Log\TestLogger
+    logger: Psr\Log\Test\TestLogger
     anonymize_logs:
         elements:
             - 'ADate'
-            - 'DailyDilbertResult'
         attributes: [CardNumber]
+    truncate_element_logs:
+        elements:
+            - 'DailyDilbertResult'
+        max_length: 2

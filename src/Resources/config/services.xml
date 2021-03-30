@@ -12,11 +12,15 @@
 
         <service id="Freshcells\SoapClientBundle\Plugin\LogPlugin" public="false">
             <argument type="service" id="logger" />
+            <argument key="$middleware" type="collection"/>
         </service>
-        <service id="Freshcells\SoapClientBundle\Plugin\AnonymizerLogPlugin" public="false">
-            <argument type="service" id="logger" />
-            <argument key="$elements" type="collection"></argument>
-            <argument key="$attributes" type="collection"></argument>
+        <service id="Freshcells\SoapClientBundle\Plugin\AnonymizerLogMiddleware" public="false">
+            <argument key="$elements" type="collection"/>
+            <argument key="$attributes" type="collection"/>
+        </service>
+        <service id="Freshcells\SoapClientBundle\Plugin\TruncateElementLogMiddleware" public="false">
+            <argument key="$elements" type="collection"/>
+            <argument key="$maxLength" type="string">10</argument>
         </service>
 
     </services>

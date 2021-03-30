@@ -15,19 +15,21 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class LogPlugin implements EventSubscriberInterface
 {
+    private LoggerInterface $logger;
     /**
-     * @var LoggerInterface
+     * @var LogMiddlewareInterface[]
      */
-    private $logger;
+    private array $middleware;
 
     /**
-     * Constructor
-     *
+     * LogPlugin constructor.
      * @param LoggerInterface $logger
+     * @param LogMiddlewareInterface[] $middleware
      */
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger, array $middleware = [])
     {
-        $this->logger = $logger;
+        $this->logger     = $logger;
+        $this->middleware = $middleware;
     }
 
     /**
@@ -38,7 +40,7 @@ class LogPlugin implements EventSubscriberInterface
         $this->logger->info(sprintf(
             '[freshcells/soap-client-bundle] pre request: about to call "%s" with params %s',
             $event->getResource(),
-            print_r($event->getRequest(), true)
+            $this->applyMiddleware(print_r($event->getRequest(), true))
         ));
     }
 
@@ -50,12 +52,12 @@ class LogPlugin implements EventSubscriberInterface
         $this->logger->info(sprintf(
             '[freshcells/soap-client-bundle] request: %s %s',
             print_r($event->getRequestHeaders(), true),
-            print_r($event->getRequestContent(), true)
+            $this->applyMiddleware(print_r($event->getRequestContent(), true))
         ));
         $this->logger->info(sprintf(
             '[freshcells/soap-client-bundle] response: %s %s',
             print_r($event->getResponseHeaders(), true),
-            print_r($event->getResponseContent(), true)
+            $this->applyMiddleware(print_r($event->getResponseContent(), true))
         ));
     }
 
@@ -68,7 +70,7 @@ class LogPlugin implements EventSubscriberInterface
             '[freshcells/soap-client-bundle] fault "%s" for request "%s" with params %s',
             $event->getException()->getMessage(),
             $event->getRequestEvent()->getResource(),
-            print_r($event->getRequestEvent()->getRequest(), true)
+            $this->applyMiddleware(print_r($event->getRequestEvent()->getRequest(), true))
         ));
     }
 
@@ -82,5 +84,18 @@ class LogPlugin implements EventSubscriberInterface
             Events::RESPONSE => 'onClientResponse',
             Events::FAULT    => 'onClientFault'
         ];
+    }
+
+    /**
+     * @param string $content
+     * @return string
+     */
+    protected function applyMiddleware(string $content): string
+    {
+        foreach ($this->middleware as $middleware) {
+            $content = $middleware->apply($content);
+        }
+
+        return $content;
     }
 }

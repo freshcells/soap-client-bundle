@@ -6,12 +6,8 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
 abstract class AbstractSoapDataCollector extends DataCollector
 {
-    private $callRegistry;
+    private SoapCallRegistry $callRegistry;
 
-    /**
-     * SoapDataCollector constructor.
-     * @param SoapCallRegistry $callRegistry
-     */
     public function __construct(SoapCallRegistry $callRegistry)
     {
         $this->callRegistry = $callRegistry;

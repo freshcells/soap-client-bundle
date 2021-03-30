@@ -4,6 +4,12 @@ All notable changes to `soap-client-bundle` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+### 2.0.0
+  - bumbed PHP version to 7.4
+  - added Log Middleware
+  - added TruncateElementLogMiddleware
+  - moved AnonymizerLogPlugin to AnonymizerLogMiddleware
+  - removed Gamez/TestLogger
 ### 1.8.0
   - added AnonymizerLogPlugin
 ### 1.7.0  

@@ -2,8 +2,9 @@
 
 namespace Freshcells\SoapClientBundle\DependencyInjection;
 
-use Freshcells\SoapClientBundle\Plugin\AnonymizerLogPlugin;
+use Freshcells\SoapClientBundle\Plugin\AnonymizerLogMiddleware;
 use Freshcells\SoapClientBundle\Plugin\LogPlugin;
+use Freshcells\SoapClientBundle\Plugin\TruncateElementLogMiddleware;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -35,17 +36,36 @@ class FreshcellsSoapClientExtension extends Extension
         }
 
         if ($config['logger']) {
-            $subscriber = $container->getDefinition(LogPlugin::class);
+            $subscriber  = $container->getDefinition(LogPlugin::class);
+            $middlewares = [];
             if (isset($config['anonymize_logs']['elements']) || isset($config['anonymize_logs']['attributes'])) {
-                $subscriber = $container->getDefinition(AnonymizerLogPlugin::class);
+                $anonymizerMiddleware = $container->getDefinition(AnonymizerLogMiddleware::class);
                 if (isset($config['anonymize_logs']['elements'])) {
-                    $subscriber->replaceArgument('$elements', $config['anonymize_logs']['elements']);
+                    $anonymizerMiddleware->replaceArgument('$elements', $config['anonymize_logs']['elements']);
                 }
                 if (isset($config['anonymize_logs']['attributes'])) {
-                    $subscriber->replaceArgument('$attributes', $config['anonymize_logs']['attributes']);
+                    $anonymizerMiddleware->replaceArgument('$attributes', $config['anonymize_logs']['attributes']);
                 }
+                $middlewares[] = $anonymizerMiddleware;
+            }
+            if (isset($config['truncate_element_logs'])) {
+                $truncateElementMiddleware = $container->getDefinition(TruncateElementLogMiddleware::class);
+                if (isset($config['truncate_element_logs']['elements'])) {
+                    $truncateElementMiddleware->replaceArgument(
+                        '$elements',
+                        $config['truncate_element_logs']['elements']
+                    );
+                }
+                $truncateElementMiddleware->replaceArgument(
+                    '$maxLength',
+                    $config['truncate_element_logs']['max_length']
+                );
+                $middlewares[] = $truncateElementMiddleware;
             }
             $subscriber->replaceArgument(0, new Reference($config['logger']));
+            if ($middlewares) {
+                $subscriber->replaceArgument('$middleware', $middlewares);
+            }
             $subscriber->addTag('kernel.event_subscriber');
         }
     }

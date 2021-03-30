@@ -16,27 +16,15 @@ use Symfony\Component\HttpKernel\Kernel;
  */
 class SoapClient extends \SoapClient implements SoapClientInterface
 {
-    /**
-     * @var array
-     */
-    protected $options;
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $dispatcher;
-    /**
-     * @var array
-     */
-    private $mockRequests = [];
-    /**
-     * @var array
-     */
-    private $mockResponses = [];
+    protected array $options;
+    protected EventDispatcherInterface $dispatcher;
+    private array $mockRequests = [];
+    private array $mockResponses = [];
 
     /**
      * SoapClient constructor.
      * @param null $wsdl
-     * @param array|null $options
+     * @param array $options
      */
     public function __construct($wsdl = null, array $options = [])
     {

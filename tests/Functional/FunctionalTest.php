@@ -4,14 +4,14 @@ namespace Freshcells\SoapClientBundle\Tests\Functional;
 
 use Freshcells\SoapClientBundle\SoapClient\SoapClient;
 use Freshcells\SoapClientBundle\SoapClient\SoapClientInterface;
-use Gamez\Psr\Log\TestLogger;
+use Psr\Log\Test\TestLogger;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class FunctionalTest extends WebTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->client = static::createClient([
@@ -31,7 +31,7 @@ class FunctionalTest extends WebTestCase
 
         $this->assertEquals('string', $response->DailyDilbertResult);
 
-        $log = $container->get(TestLogger::class)->log;
+        $log = $container->get(TestLogger::class)->records;
 
         $this->assertCount(3, $log);
 
@@ -59,17 +59,17 @@ class FunctionalTest extends WebTestCase
 
     /**
      * @dataProvider provideFaultyData
-     * @expectedException \Exception
      */
     public function testFault($value, $count)
     {
+        $this->expectException(\Exception::class);
         $container  = static::$kernel->getContainer();
         $soapClient = $container->get(SoapClient::class);
 
         try {
             $response = $soapClient->NoSuchAction($value);
         } catch (\Exception $e) {
-            $log = $container->get(TestLogger::class)->log;
+            $log = $container->get(TestLogger::class)->records;
             $this->assertCount($count, $log);
 
             $container->get('profiler')->get('freshcells_soap_client')->collect(new Request(), new Response());
@@ -83,7 +83,7 @@ class FunctionalTest extends WebTestCase
     {
         return [
             ['heureka', 1],
-            [['val' => 'heureka'], 1]
+            [['val' => 'heureka'], 1],
         ];
     }
 
@@ -107,7 +107,7 @@ class FunctionalTest extends WebTestCase
             'features'           => SOAP_SINGLE_ELEMENT_ARRAYS,
             'soap_version'       => SOAP_1_2,
             'trace'              => true,
-            'user_agent'         => 'freshcells/soap-client-bundle'
+            'user_agent'         => 'freshcells/soap-client-bundle',
         ];
 
         $container = static::$kernel->getContainer();
@@ -127,7 +127,7 @@ class FunctionalTest extends WebTestCase
             'features'           => SOAP_SINGLE_ELEMENT_ARRAYS,
             'soap_version'       => SOAP_1_1,
             'trace'              => false,
-            'user_agent'         => 'freshcells/soap-client-bundle'
+            'user_agent'         => 'freshcells/soap-client-bundle',
         ];
 
         $container = static::$kernel->getContainer();
@@ -135,5 +135,12 @@ class FunctionalTest extends WebTestCase
         $soapClient = $container->get('soap_client_with_custom_options');
 
         $this->assertEquals($expectedOptions, $soapClient->getOptions());
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        static::$class = null;
     }
 }
