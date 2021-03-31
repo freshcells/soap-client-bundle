@@ -6,6 +6,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### 2.0.0
   - bumbed PHP version to 7.4
+  - ditched symfony 3.4 support
   - added Log Middleware
   - added TruncateElementLogMiddleware
   - moved AnonymizerLogPlugin to AnonymizerLogMiddleware
