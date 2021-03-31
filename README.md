@@ -41,6 +41,8 @@ Initalize the bundle:
         elements:
           - 'DailyDilbertResult'
         max_length: 2
+      truncate_logs: # in case you need to truncate request/response logs
+        max_length: 350
 
 Create a Soap Client service and tag it with `freshcells_soap_client.client` 
 
