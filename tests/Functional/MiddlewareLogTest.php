@@ -19,7 +19,7 @@ class MiddlewareLogTest extends WebTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->client = static::createClient([
+        static::createClient([
             'environment' => 'test',
             'debug'       => true,
         ]);
