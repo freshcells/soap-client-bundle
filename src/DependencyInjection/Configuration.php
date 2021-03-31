@@ -46,6 +46,11 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                     ->end()
+                    ->arrayNode('truncate_logs')
+                        ->children()
+                            ->scalarNode('max_length')->defaultValue(100)->end()
+                        ->end()
+                    ->end()
                     ->scalarNode('enable_profiler')->defaultTrue()->end();
 
         return $treeBuilder;

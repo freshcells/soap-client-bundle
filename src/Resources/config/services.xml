@@ -22,6 +22,9 @@
             <argument key="$elements" type="collection"/>
             <argument key="$maxLength" type="string">10</argument>
         </service>
+        <service id="Freshcells\SoapClientBundle\Plugin\TruncateLogMiddleware" public="false">
+            <argument key="$maxLength" type="string">500</argument>
+        </service>
 
     </services>
 

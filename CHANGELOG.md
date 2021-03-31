@@ -9,6 +9,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
   - ditched symfony 3.4 support
   - added Log Middleware
   - added TruncateElementLogMiddleware
+  - added TruncateLogMiddleware
   - moved AnonymizerLogPlugin to AnonymizerLogMiddleware
   - removed Gamez/TestLogger
 ### 1.8.0

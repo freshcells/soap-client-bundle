@@ -7,11 +7,6 @@ class TruncateElementLogMiddleware implements LogMiddlewareInterface
     private array $elements = [];
     private int $maxLength;
 
-    /**
-     * TruncateElementLogMiddleware constructor.
-     * @param array $elements
-     * @param int $maxLength
-     */
     public function __construct(array $elements, int $maxLength)
     {
         $this->elements  = $elements;
@@ -20,6 +15,7 @@ class TruncateElementLogMiddleware implements LogMiddlewareInterface
 
     public function apply($content): string
     {
+        // todo with regex its not relyibly working, probably should use xpath
         foreach ($this->elements as $field) {
             $content = preg_replace_callback(
                 '/<('.$field.'[^>]*)>(.{'.$this->maxLength.',}?)<\/'.$field.'>/msi',

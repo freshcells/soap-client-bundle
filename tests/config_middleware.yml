@@ -79,3 +79,5 @@ freshcells_soap_client:
         elements:
             - 'DailyDilbertResult'
         max_length: 2
+    truncate_logs:
+        max_length: 350

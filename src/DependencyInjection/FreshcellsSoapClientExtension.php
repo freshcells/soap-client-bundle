@@ -5,6 +5,7 @@ namespace Freshcells\SoapClientBundle\DependencyInjection;
 use Freshcells\SoapClientBundle\Plugin\AnonymizerLogMiddleware;
 use Freshcells\SoapClientBundle\Plugin\LogPlugin;
 use Freshcells\SoapClientBundle\Plugin\TruncateElementLogMiddleware;
+use Freshcells\SoapClientBundle\Plugin\TruncateLogMiddleware;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -61,6 +62,14 @@ class FreshcellsSoapClientExtension extends Extension
                     $config['truncate_element_logs']['max_length']
                 );
                 $middlewares[] = $truncateElementMiddleware;
+            }
+            if (isset($config['truncate_logs'])) {
+                $truncateMiddleware = $container->getDefinition(TruncateLogMiddleware::class);
+                $truncateMiddleware->replaceArgument(
+                    '$maxLength',
+                    $config['truncate_logs']['max_length']
+                );
+                $middlewares[] = $truncateMiddleware;
             }
             $subscriber->replaceArgument(0, new Reference($config['logger']));
             if ($middlewares) {
