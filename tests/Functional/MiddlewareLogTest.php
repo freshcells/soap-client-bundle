@@ -41,7 +41,7 @@ class MiddlewareLogTest extends WebTestCase
         $this->assertCount(3, $log);
         $this->assertTrue(strpos($log[0]['message'], '<ADate>*****</ADate>') !== false);
         $this->assertTrue(strpos($log[2]['message'], '<DailyDilbertResult>st...</DailyDilbertResult>') !== false);
-        $this->assertTrue(strlen($log[2]['message']) === 393); //truncated xml + log info
+        $this->assertTrue(strlen($log[2]['message']) === 413); //truncated xml + log info
 
         $container->get('profiler')->get('freshcells_soap_client')->collect(new Request(), new Response());
         $this->assertEquals(1, $container->get('profiler')->get('freshcells_soap_client')->getTotal());

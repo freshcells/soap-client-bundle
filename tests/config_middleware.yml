@@ -80,4 +80,4 @@ freshcells_soap_client:
             - 'DailyDilbertResult'
         max_length: 2
     truncate_logs:
-        max_length: 350
+        max_length: 370

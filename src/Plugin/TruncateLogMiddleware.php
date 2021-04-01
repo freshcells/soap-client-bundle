@@ -13,6 +13,6 @@ class TruncateLogMiddleware implements LogMiddlewareInterface
 
     public function apply($content): string
     {
-        return substr($content, 0, $this->maxLength);
+        return substr($content, 0, $this->maxLength - 3) .'...';
     }
 }
