@@ -28,7 +28,7 @@ class TruncateElementLogMiddleware implements LogMiddlewareInterface
             $query   = '//'.$field.'/text()';
             $entries = $xpath->query($query);
             foreach ($entries as $entry) {
-                if (strlen($content) > $this->maxLength) {
+                if (strlen($entry->data) > $this->maxLength) {
                     $entry->data = trim(substr($entry->data, 0, $this->maxLength)).'...';
                 }
             }
