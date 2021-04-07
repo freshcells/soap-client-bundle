@@ -118,7 +118,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [ico-version]: https://img.shields.io/packagist/v/freshcells/soap-client-bundle.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/freshcells/soap-client-bundle/master.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/freshcells/soap-client-bundle/main.svg?style=flat-square
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/freshcells/soap-client-bundle.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/freshcells/soap-client-bundle.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/freshcells/soap-client-bundle.svg?style=flat-square

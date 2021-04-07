@@ -5,3 +5,4 @@ tests/cache
 docker
 docker-compose.yml
 var
+.phpunit.result.cache
