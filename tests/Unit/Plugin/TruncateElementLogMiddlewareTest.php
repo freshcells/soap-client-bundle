@@ -9,7 +9,11 @@ class TruncateElementLogMiddlewareTest extends TestCase
 {
     public function testTruncate()
     {
-        $middleware = new TruncateElementLogMiddleware(['Text'], 10);
+        $middleware = new TruncateElementLogMiddleware(
+            ['dummy:Text'],
+            ['dummy' => 'http://gcomputer.net/webservices/'],
+            10
+        );
         $res        = $middleware->apply($this->getXml());
         $this->assertTrue(strpos($res, '<Text>Powder ca...</Text>') !== false);
     }

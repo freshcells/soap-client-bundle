@@ -37,9 +37,13 @@ Initalize the bundle:
           - 'GivenName'
           - 'ns1:GivenName'
         attributes: [ 'PhoneNumber' ]
+        namespaces:
+          dummy: 'http://gcomputer.net/webservices/'
       truncate_element_logs: # in case you need to truncate some elements because values are too long for logging
         elements:
           - 'DailyDilbertResult'
+        namespaces:
+          dummy: 'http://gcomputer.net/webservices/'
         max_length: 2
       truncate_logs: # in case you need to truncate request/response logs
         max_length: 350

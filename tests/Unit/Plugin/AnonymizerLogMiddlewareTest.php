@@ -9,8 +9,13 @@ class AnonymizerLogMiddlewareTest extends TestCase
 {
     public function testApply()
     {
-        $middleware = new AnonymizerLogMiddleware(['ADate'], ['time']);
-        $res = $middleware->apply($this->getXml());
+        $middleware = new AnonymizerLogMiddleware(
+            ['dummy:ADate'],
+            ['dummy:ADate[@time]'],
+            '*****',
+            ['dummy' => 'http://gcomputer.net/webservices/']
+        );
+        $res        = $middleware->apply($this->getXml());
         $this->assertTrue(strpos($res, '<ADate time="*****">*****</ADate>') !== false);
     }
 

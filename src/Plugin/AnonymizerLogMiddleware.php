@@ -7,38 +7,46 @@ class AnonymizerLogMiddleware implements LogMiddlewareInterface
     private array $elements = [];
     private array $attributes = [];
     private string $substitute;
-    private array $headersToSubstitute = [];
+    private array $namespaces = [];
 
     public function __construct(
         array $elements,
         array $attributes,
-        $substitute = '*****',
-        array $headersToSubstitute = []
+        string $substitute = '*****',
+        array $namespaces = []
     ) {
-        $this->elements            = $elements;
-        $this->attributes          = $attributes;
-        $this->substitute          = $substitute;
-        $this->headersToSubstitute = $headersToSubstitute;
+        $this->elements   = $elements;
+        $this->attributes = $attributes;
+        $this->substitute = $substitute;
+        $this->namespaces = $namespaces;
     }
 
     public function apply($content): string
     {
-        //elements
+        $doc = new \DOMDocument();
+        $doc->loadXML($content);
+        $xpath = new \DOMXPath($doc);
+        foreach ($this->namespaces as $namespace => $uri) {
+            $xpath->registerNamespace($namespace, $uri);
+        }
+
         foreach ($this->elements as $field) {
-            $content = preg_replace(
-                sprintf('/<(%s[^>]*)>.*?<\/(%s)>/i', $field, $field),
-                sprintf('<%s>%s</%s>', '$1', $this->substitute, '$2'),
-                $content
-            );
+            $query   = '//'.$field.'/text()';
+            $entries = $xpath->query($query);
+            foreach ($entries as $entry) {
+                $entry->data = $this->substitute;
+            }
         }
-        //attributes
+
         foreach ($this->attributes as $attribute) {
-            $re    = '/ '.$attribute.'="[^"]*/';
-            $subst = ' '.$attribute.'="'.$this->substitute;
-
-            $content = preg_replace($re, $subst, $content);
+            $entries = $xpath->query('//'.$attribute);
+            foreach ($entries as $entry) {
+                foreach ($entry->attributes as $attribute) {
+                    $attribute->value = $this->substitute;
+                }
+            }
         }
 
-        return $content;
+        return $doc->saveXml();
     }
 }

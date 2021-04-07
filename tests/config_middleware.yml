@@ -73,11 +73,15 @@ freshcells_soap_client:
     logger: Psr\Log\Test\TestLogger
     anonymize_logs:
         elements:
-            - 'ADate'
+            - 'dummy:ADate'
         attributes: [CardNumber]
+        namespaces:
+            dummy: 'http://gcomputer.net/webservices/'
     truncate_element_logs:
         elements:
-            - 'DailyDilbertResult'
+            - 'dummy:DailyDilbertResult'
+        namespaces:
+            dummy: 'http://gcomputer.net/webservices/'
         max_length: 2
     truncate_logs:
         max_length: 370

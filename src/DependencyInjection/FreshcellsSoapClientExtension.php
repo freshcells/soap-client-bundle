@@ -47,6 +47,9 @@ class FreshcellsSoapClientExtension extends Extension
                 if (isset($config['anonymize_logs']['attributes'])) {
                     $anonymizerMiddleware->replaceArgument('$attributes', $config['anonymize_logs']['attributes']);
                 }
+                if (isset($config['anonymize_logs']['namespaces'])) {
+                    $anonymizerMiddleware->replaceArgument('$namespaces', $config['anonymize_logs']['namespaces']);
+                }
                 $middlewares[] = $anonymizerMiddleware;
             }
             if (isset($config['truncate_element_logs'])) {
@@ -55,6 +58,12 @@ class FreshcellsSoapClientExtension extends Extension
                     $truncateElementMiddleware->replaceArgument(
                         '$elements',
                         $config['truncate_element_logs']['elements']
+                    );
+                }
+                if (isset($config['anonymize_logs']['namespaces'])) {
+                    $truncateElementMiddleware->replaceArgument(
+                        '$namespaces',
+                        $config['anonymize_logs']['namespaces']
                     );
                 }
                 $truncateElementMiddleware->replaceArgument(

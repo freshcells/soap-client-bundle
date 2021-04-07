@@ -17,9 +17,12 @@
         <service id="Freshcells\SoapClientBundle\Plugin\AnonymizerLogMiddleware" public="false">
             <argument key="$elements" type="collection"/>
             <argument key="$attributes" type="collection"/>
+            <argument key="$substitute">*****</argument>
+            <argument key="$namespaces" type="collection"/>
         </service>
         <service id="Freshcells\SoapClientBundle\Plugin\TruncateElementLogMiddleware" public="false">
             <argument key="$elements" type="collection"/>
+            <argument key="$namespaces" type="collection"/>
             <argument key="$maxLength" type="string">10</argument>
         </service>
         <service id="Freshcells\SoapClientBundle\Plugin\TruncateLogMiddleware" public="false">
