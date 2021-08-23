@@ -1,0 +1,71 @@
+name: soap-client-bundle
+
+on:
+    pull_request: ~
+    push:
+        branches:
+            - master
+
+jobs:
+    coding-style:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '7.4'
+            - name: php-cs-fixer
+              run: |
+                  composer install -n --prefer-dist
+                  composer check-style
+    tests-php-7-4-symfony-4-3:
+        runs-on: ubuntu-latest
+        env:
+            SYMFONY_VERSION: 4.3.*
+        steps:
+            - uses: actions/checkout@v2
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '7.4'
+            - name: PHPUnit
+              run: |
+                  composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
+                  composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
+                  composer update --prefer-dist --no-interaction --no-ansi --no-progress
+                  php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+    tests-php-7-4-symfony-5-0:
+        runs-on: ubuntu-latest
+        env:
+            SYMFONY_VERSION: 5.0.*
+        steps:
+            - uses: actions/checkout@v2
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '7.4'
+            - name: PHPUnit
+              run: |
+                  composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
+                  composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
+                  composer update --prefer-dist --no-interaction --no-ansi --no-progress
+                  php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+    tests-php-8-0-symfony-5-3:
+        runs-on: ubuntu-latest
+        env:
+            SYMFONY_VERSION: 5.3.*
+        steps:
+            - uses: actions/checkout@v2
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.0'
+            - name: PHPUnit
+              run: |
+                  composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
+                  composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
+                  composer update --prefer-dist --no-interaction --no-ansi --no-progress
+                  php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+            - name: Upload code coverage scrutinizer
+              run: |
+                wget https://scrutinizer-ci.com/ocular.phar
+                php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+
+
