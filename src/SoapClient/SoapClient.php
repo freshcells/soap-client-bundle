@@ -17,7 +17,7 @@ use Symfony\Component\HttpKernel\Kernel;
 class SoapClient extends \SoapClient implements SoapClientInterface
 {
     protected array $options;
-    protected EventDispatcherInterface $dispatcher;
+    protected ?EventDispatcherInterface $dispatcher = null;
     private array $mockRequests = [];
     private array $mockResponses = [];
 
