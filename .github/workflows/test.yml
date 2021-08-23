@@ -48,6 +48,10 @@ jobs:
                   composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
                   composer update --prefer-dist --no-interaction --no-ansi --no-progress
                   php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+            -   name: Upload code coverage scrutinizer
+                run: |
+                    wget https://scrutinizer-ci.com/ocular.phar
+                    php ocular.phar code-coverage:upload --format=php-clover coverage.clover
     tests-php-8-0-symfony-5-3:
         runs-on: ubuntu-latest
         env:
@@ -63,9 +67,3 @@ jobs:
                   composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
                   composer update --prefer-dist --no-interaction --no-ansi --no-progress
                   php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-            - name: Upload code coverage scrutinizer
-              run: |
-                wget https://scrutinizer-ci.com/ocular.phar
-                php ocular.phar code-coverage:upload --format=php-clover coverage.clover
-
-
