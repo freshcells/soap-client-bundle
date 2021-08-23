@@ -51,7 +51,7 @@ class SoapClient extends \SoapClient implements SoapClientInterface
 
         $options = array_merge($defaults, $options);
 
-        $this->SoapClient($wsdl, $options);
+        parent::__construct($wsdl, $options);
         $this->options = $options;
     }
 
