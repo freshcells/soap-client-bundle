@@ -75,7 +75,7 @@ class LogPlugin implements EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return array(
             Events::REQUEST  => 'onClientRequest',
