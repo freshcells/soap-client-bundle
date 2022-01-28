@@ -42,7 +42,7 @@ abstract class AbstractSoapDataCollector extends DataCollector
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'freshcells_soap_client';
     }
