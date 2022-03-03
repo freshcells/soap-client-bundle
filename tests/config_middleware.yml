@@ -16,7 +16,7 @@ parameters:
         trace: false
 
 services:
-    Psr\Log\Test\TestLogger:
+    ColinODell\PsrTestLogger\TestLogger:
         public: true
     Freshcells\SoapClientBundle\SoapClient\SoapClient:
         arguments: ['http://gcomputer.net/webservices/dilbert.asmx?WSDL', '%soap_options%']
@@ -70,7 +70,7 @@ framework:
     test: true
 
 freshcells_soap_client:
-    logger: Psr\Log\Test\TestLogger
+    logger: ColinODell\PsrTestLogger\TestLogger
     anonymize_logs:
         elements:
             - 'dummy:ADate'

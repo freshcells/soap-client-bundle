@@ -2,9 +2,9 @@
 
 namespace Freshcells\SoapClientBundle\Tests\Functional;
 
+use ColinODell\PsrTestLogger\TestLogger;
 use Freshcells\SoapClientBundle\SoapClient\SoapClient;
 use Freshcells\SoapClientBundle\SoapClient\SoapClientInterface;
-use Psr\Log\Test\TestLogger;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
