@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MiddlewareLogTest extends WebTestCase
 {
-    protected static function getKernelClass()
+    protected static function getKernelClass(): string
     {
         return MiddlewareAppKernel::class;
     }
