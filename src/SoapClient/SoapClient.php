@@ -60,6 +60,7 @@ class SoapClient extends \SoapClient implements SoapClientInterface
         return $this->options;
     }
 
+    #[\ReturnTypeWillChange]
     public function __call($function_name, $arguments)
     {
         try {
@@ -75,6 +76,7 @@ class SoapClient extends \SoapClient implements SoapClientInterface
         return $response;
     }
 
+    #[\ReturnTypeWillChange]
     public function __soapCall(
         $function_name,
         $arguments,
