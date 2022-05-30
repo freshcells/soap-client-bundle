@@ -105,6 +105,7 @@ class SoapClient extends \SoapClient implements SoapClientInterface
      * @param null $one_way
      * @return bool|string
      */
+    #[\ReturnTypeWillChange]
     public function __doRequest($request, $location, $action, $version, $one_way = null)
     {
         $id = Uuid::uuid1();
