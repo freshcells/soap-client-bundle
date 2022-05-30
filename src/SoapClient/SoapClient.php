@@ -60,6 +60,11 @@ class SoapClient extends \SoapClient implements SoapClientInterface
         return $this->options;
     }
 
+    /**
+     * @param $function_name
+     * @param $arguments
+     * @return mixed
+     */
     #[\ReturnTypeWillChange]
     public function __call($function_name, $arguments)
     {
@@ -76,6 +81,14 @@ class SoapClient extends \SoapClient implements SoapClientInterface
         return $response;
     }
 
+    /**
+     * @param $function_name
+     * @param $arguments
+     * @param $options
+     * @param $input_headers
+     * @param $output_headers
+     * @return mixed
+     */
     #[\ReturnTypeWillChange]
     public function __soapCall(
         $function_name,
