@@ -4,6 +4,8 @@ All notable changes to `soap-client-bundle` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+### 2.3.1
+  - fixes return types
 ### 2.3.0
   - symfony6 compat
 ### 2.2.1
