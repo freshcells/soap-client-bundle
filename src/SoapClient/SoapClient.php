@@ -9,6 +9,7 @@ use Freshcells\SoapClientBundle\Event\RequestEvent;
 use Freshcells\SoapClientBundle\Event\ResponseEvent;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Service\Attribute\Required;
 
 /**
  * Class SoapClient
@@ -241,8 +242,8 @@ class SoapClient extends \SoapClient implements SoapClientInterface
 
     /**
      * @param EventDispatcherInterface $dispatcher
-     * @required
      */
+    #[Required]
     public function setDispatcher(EventDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
