@@ -10,7 +10,7 @@ class ClientCompilerPass implements CompilerPassInterface
 {
     const CLIENT_TAG = 'freshcells_soap_client.client';
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $clients = $container->findTaggedServiceIds(self::CLIENT_TAG);
 

@@ -10,8 +10,8 @@ class SoapDataCollector extends AbstractSoapDataCollector
     /**
      * {@inheritdoc}
      */
-    public function collect(Request $request, Response $response, \Throwable $exception = null)
+    public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
-        return $this->doCollect();
+        $this->doCollect();
     }
 }
