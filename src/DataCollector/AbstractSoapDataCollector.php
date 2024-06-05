@@ -16,7 +16,7 @@ abstract class AbstractSoapDataCollector extends DataCollector
     /**
      * @see collect()
      */
-    protected function doCollect()
+    protected function doCollect(): void
     {
         $time = 0;
         foreach ($this->callRegistry->getCalls() as $call) {
@@ -30,7 +30,7 @@ abstract class AbstractSoapDataCollector extends DataCollector
         ];
     }
 
-    public function reset()
+    public function reset(): void
     {
         $this->data = [
             'total'    => 0,

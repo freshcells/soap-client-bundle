@@ -9,7 +9,7 @@ use Freshcells\SoapClientBundle\Event\RequestEvent;
 use Freshcells\SoapClientBundle\Event\ResponseEvent;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Contracts\Service\Attribute\Required;
 
 /**
  * Class SoapClient
@@ -242,8 +242,8 @@ class SoapClient extends \SoapClient implements SoapClientInterface
 
     /**
      * @param EventDispatcherInterface $dispatcher
-     * @required
      */
+    #[Required]
     public function setDispatcher(EventDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
@@ -276,13 +276,6 @@ class SoapClient extends \SoapClient implements SoapClientInterface
             return;
         }
 
-        // EventDispatcher signature changed in Symfony 4.3
-        if (Kernel::VERSION_ID < 40300) {
-            // Old EventDispatcher signature
-            $this->dispatcher->dispatch($eventName, $event);
-        } else {
-            // New Symfony 4.3 EventDispatcher signature
-            $this->dispatcher->dispatch($event, $eventName);
-        }
+        $this->dispatcher->dispatch($event, $eventName);
     }
 }
