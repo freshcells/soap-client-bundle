@@ -4,6 +4,18 @@ All notable changes to `soap-client-bundle` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+### 3.0.0
+  - Drop unsupported php & symfony versions:  
+      - only php 8.1, 8.2, 8.3 see https://www.php.net/supported-versions.php
+      - only symfony 5.4, 6.4, 7.0 see https://symfony.com/releases
+      - update phpunit to support coverage for php8
+      - use matrix for github actions
+      - exclude php 8.1 & symfony 7 because symfony 7 requires php >=8.2
+      - fix deprecations
+      - remove bc layers
+      - replace required annotation by attribute
+### 2.3.2
+  - added scroll fix
 ### 2.3.1
   - fixes return types
 ### 2.3.0
