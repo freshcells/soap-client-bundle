@@ -187,7 +187,7 @@ class SoapClient extends \SoapClient implements SoapClientInterface
      * @param string $resource
      * @param string $requestContent
      */
-    protected function preCall(string $id, string $resource, string $requestContent = null)
+    protected function preCall(string $id, string $resource, ?string $requestContent = null)
     {
         $this->dispatch(new RequestEvent($id, $resource, $requestContent), Events::REQUEST);
     }
@@ -197,7 +197,7 @@ class SoapClient extends \SoapClient implements SoapClientInterface
      * @param string $resource
      * @param string $response
      */
-    protected function postCall(string $id, string $resource, string $response = null)
+    protected function postCall(string $id, string $resource, ?string $response = null)
     {
         $responseEvent = new ResponseEvent(
             $id,
