@@ -39,7 +39,7 @@ jobs:
             - name: PHPUnit
               run: |
                   composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
-                  composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
+                  composer require --no-update --dev symfony/debug-bundle=$SYMFONY_VERSION symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
                   composer update --prefer-dist --no-interaction --no-ansi --no-progress
                   php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
             - name: Upload code coverage scrutinizer
