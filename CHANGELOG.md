@@ -4,6 +4,9 @@ All notable changes to `soap-client-bundle` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+### 3.1.0
+ - remove unsupported php versions 8.1
+ - CI improvements: update github actions, add debug-bundle constraint to fix dependencies
 ### 3.0.0
   - Drop unsupported php & symfony versions:  
       - only php 8.1, 8.2, 8.3 see https://www.php.net/supported-versions.php
