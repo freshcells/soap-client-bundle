@@ -29,11 +29,11 @@ class FreshcellsSoapClientExtension extends Extension
             );
         }
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.xml');
+        $loader = new Loader\PhpFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.php');
 
         if ($config['enable_profiler']) {
-            $loader->load('data_collector.xml');
+            $loader->load('data_collector.php');
         }
 
         if ($config['logger']) {

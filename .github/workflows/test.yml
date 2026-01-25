@@ -22,7 +22,12 @@ jobs:
         strategy:
             matrix:
                 php: [ 8.2, 8.3, 8.4 ]
-                symfony: [ 5.4, 6.4, 7.4 ]
+                symfony: [ 5.4, 6.4, 7.4, 8.0 ]
+                exclude:
+                    - php: 8.2
+                      symfony: 8.0
+                    - php: 8.3
+                      symfony: 8.0
         runs-on: ubuntu-latest
         env:
             SYMFONY_VERSION: ${{ matrix.symfony }}.*
@@ -36,7 +41,7 @@ jobs:
             - name: PHPUnit
               run: |
                   composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
-                  composer require --no-update --dev symfony/debug-bundle=$SYMFONY_VERSION symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
+                  composer require --no-update --dev symfony/browser-kit=$SYMFONY_VERSION symfony/debug-bundle=$SYMFONY_VERSION symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
                   composer update --prefer-dist --no-interaction --no-ansi --no-progress
                   php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
             - name: Upload code coverage scrutinizer
