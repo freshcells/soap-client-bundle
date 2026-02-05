@@ -4,6 +4,8 @@ All notable changes to `soap-client-bundle` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+### 3.2.1
+ - change import from HttpKernel to DependencyInjection
 ### 3.2.0
  - add support for symfony 8
  - drop XMLLoader and YamlLoader, only provide PhpFileLoader
