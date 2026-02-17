@@ -115,12 +115,18 @@ class SoapClient extends \SoapClient implements SoapClientInterface
      * @param string $location
      * @param string $action
      * @param int $version
-     * @param null $one_way
-     * @return bool|string
+     * @param bool $oneWay
+     * @param string|null $uriParserClass
+     * @return string|null
      */
-    #[\ReturnTypeWillChange]
-    public function __doRequest($request, $location, $action, $version, $one_way = null)
-    {
+    public function __doRequest(
+        string $request,
+        string $location,
+        string $action,
+        int $version,
+        bool $oneWay = false,
+        ?string $uriParserClass = null
+    ): ?string {
         $id = Uuid::uuid1();
 
         foreach ($this->mockRequests as $key => $mockRequest) {
@@ -131,7 +137,7 @@ class SoapClient extends \SoapClient implements SoapClientInterface
                 }
             } else {
                 if (is_callable($mockRequest)) {
-                    if ($requestFilePath = $mockRequest($request, $location, $action, $version, $one_way)) {
+                    if ($requestFilePath = $mockRequest($request, $location, $action, $version, $oneWay)) {
                         $request = file_get_contents($requestFilePath);
                         break;
                     }
@@ -152,7 +158,7 @@ class SoapClient extends \SoapClient implements SoapClientInterface
                 }
             } else {
                 if (is_callable($mockResponse)) {
-                    if ($responseFilePath = $mockResponse($request, $location, $action, $version, $one_way)) {
+                    if ($responseFilePath = $mockResponse($request, $location, $action, $version, $oneWay)) {
                         $response = file_get_contents($responseFilePath);
 
                         $this->postCall($id->toString(), $action, $response);
@@ -169,7 +175,7 @@ class SoapClient extends \SoapClient implements SoapClientInterface
             $socketTimeout = ini_set('default_socket_timeout', $this->options['connection_timeout']);
         }
 
-        $response = parent::__doRequest($request, $location, $action, $version, $one_way);
+        $response = parent::__doRequest($request, $location, $action, $version, $oneWay, $uriParserClass);
 
         $this->postCall($id->toString(), (string)$action, $response);
 
