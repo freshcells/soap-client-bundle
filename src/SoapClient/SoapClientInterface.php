@@ -6,7 +6,14 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 interface SoapClientInterface
 {
-    public function __doRequest($request, $location, $action, $version, $one_way = null);
+    public function __doRequest(
+        string $request,
+        string $location,
+        string $action,
+        int $version,
+        bool $oneWay = false,
+        ?string $uriParserClass = null
+    ): ?string;
 
     public function setMockRequests(array $mockRequests);
 
