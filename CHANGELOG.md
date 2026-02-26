@@ -4,6 +4,13 @@ All notable changes to `soap-client-bundle` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+### 4.0.0
+ - Only for PHP 8.5 due to changes in native SoapClient & SoapClientInterface
+ - Breaking Changes:
+     - Requires PHP 8.5+
+     - $one_way renamed to $oneWay
+     - Added 6th parameter $uriParserClass
+     - Strict type declarations and ?string return type
 ### 3.2.1
  - change import from HttpKernel to DependencyInjection
 ### 3.2.0
