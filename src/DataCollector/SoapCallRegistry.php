@@ -38,6 +38,7 @@ class SoapCallRegistry
 
     private function prettyXML(string $xml): string
     {
+        $previous = libxml_use_internal_errors(true);
         try {
             //nicen
             $doc = new \DomDocument('1.0');
@@ -45,8 +46,8 @@ class SoapCallRegistry
             $doc->formatOutput = true;
 
             return $doc->saveXML();
-        } catch (\Exception $e) {
-            // probably no xml, just let it pass
+        } finally {
+            libxml_use_internal_errors($previous);
         }
 
         return $xml;
